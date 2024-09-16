@@ -1,15 +1,22 @@
-import { Moto } from "../../domain/entities/Moto";
+import { MotoRepository } from '../../application/repositories/MotoRepository';
+import { Moto } from '../../domain/entities/Moto';
 
-export class InMemoryMotoRepository {
+export class InMemoryMotoRepository implements MotoRepository {
   private motos: Moto[] = [];
 
-  ajouterMoto(moto: Moto): void {
-    this.motos.push(moto);
+  public async findById(id: string): Promise<Moto | null> {
+    const moto = this.motos.find(m => m.id === id);
+    return moto || null;
   }
 
-  obtenirMotoParId(id: string): Moto | undefined {
-    return this.motos.find((moto) => moto.id === id);
+  public async update(moto: Moto): Promise<void> {
+    const index = this.motos.findIndex(m => m.id === moto.id);
+    if (index !== -1) {
+      this.motos[index] = moto;
+    } else {
+      this.motos.push(moto);
+    }
   }
 
-  // Autres méthodes CRUD...
+  // Implémentation des autres méthodes si nécessaire
 }

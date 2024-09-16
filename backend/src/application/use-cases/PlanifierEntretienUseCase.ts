@@ -1,8 +1,18 @@
-import { Moto } from "../../domain/entities/Moto";
+import { Moto } from '../../domain/entities/Moto';
+import { MotoRepository } from '../repositories/MotoRepository';
 
-export class PlanifierEntretienUseCase {
-  execute(moto: Moto): void {
-    // Logique pour planifier un entretien
-    console.log(`Planification de l'entretien pour la moto ${moto.modele}`);
+export class PlanifierEntretien {
+  private motoRepository: MotoRepository;
+
+  constructor(motoRepository: MotoRepository) {
+    this.motoRepository = motoRepository;
+  }
+
+  public async execute(moto: Moto, dateEntretien: Date): Promise<void> {
+    // Logique pour planifier l'entretien
+    moto.dateProchainEntretien = dateEntretien;
+
+    // Sauvegarder les modifications
+    await this.motoRepository.update(moto);
   }
 }
