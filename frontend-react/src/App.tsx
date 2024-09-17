@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import MotoList from './components/MotoList';
+import HistoriqueEntretiens from './components/HistoriqueEntretiens';
+import PlanifierEntretiens from './components/PlanifierEntretiens';
+import ErrorBoundary from './components/ErrorBoundary';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ErrorBoundary>
+      <Router>
+        <div>
+          <h1>Application de Gestion de Motos</h1>
+          <Routes>
+            <Route path="/" element={<MotoList />} />
+            <Route path="/historique" element={<HistoriqueEntretiens />} />
+            <Route path="/planifier" element={<PlanifierEntretiens />} />
+          </Routes>
+        </div>
+      </Router>
+    </ErrorBoundary>
   );
-}
+};
 
 export default App;
