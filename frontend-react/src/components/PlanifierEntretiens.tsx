@@ -1,3 +1,5 @@
+// src/components/PlanifierEntretiens.tsx
+
 import React from 'react';
 import { planifierEntretiens } from '../services/motoService';
 
@@ -12,7 +14,10 @@ const PlanifierEntretiens: React.FC = () => {
   };
 
   return (
-    <button onClick={handlePlanifier}>Planifier les entretiens</button>
+    <div>
+      <h2>Planifier des Entretiens</h2>
+      <button onClick={handlePlanifier}>Planifier</button>
+    </div>
   );
 };
 

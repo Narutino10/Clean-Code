@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Entretien } from '../interfaces/Entretien';
 
 const api = axios.create({
   baseURL: 'http://localhost:3000/api',
@@ -23,7 +24,12 @@ export const updateKilometrage = async (id: string, kilometrage: number) => {
   return response.data;
 };
 
-export const planifierEntretiens = async () => {
-  const response = await api.post('/entretiens/planifier');
-  return response.data;
+export const planifierEntretiens = async (motoId: string): Promise<void> => {
+  await axios.post(`/api/motos/${motoId}/planifier-entretiens`);
 };
+
+
+export const getEntretiens = async (motoID: string): Promise<Entretien[]> => {
+  const response = await api.get(`/api/motos/${motoID}/entretiens`);
+  return response.data;
+} 

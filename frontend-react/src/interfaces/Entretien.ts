@@ -1,7 +1,8 @@
 export interface Entretien {
-    id: string;
-    motoId: string;
-    date: string;
-    description: string;
-  }
-  
+  id: string;
+  date: string; 
+  description: string;
+  piecesChangees: string[];
+  coutTotal: number;
+  recommandations: string;
+}

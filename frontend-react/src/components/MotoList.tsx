@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Moto } from '../interfaces/Moto';
-import { getMotos } from '../services/motoService';
+import { getAllMotos } from '../services/motoService';
 
 const MotoList: React.FC = () => {
   const [motos, setMotos] = useState<Moto[]>([]);
@@ -10,7 +10,7 @@ const MotoList: React.FC = () => {
   useEffect(() => {
     const fetchMotos = async () => {
       try {
-        const data = await getMotos();
+        const data = await getAllMotos();
         setMotos(data);
       } catch (err) {
         setError('Erreur lors de la récupération des motos');
