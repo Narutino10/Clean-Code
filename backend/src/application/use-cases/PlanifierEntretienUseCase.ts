@@ -1,18 +1,23 @@
-import { Moto } from '../../domain/entities/Moto';
 import { MotoRepository } from '../repositories/MotoRepository';
+import { ModeleMotoRepository } from '../repositories/ModeleMotoRepository';
+import { Moto } from '../../domain/entities/Moto';
 
-export class PlanifierEntretien {
-  private motoRepository: MotoRepository;
+export class PlanifierEntretiens {
+  constructor(
+    private motoRepository: MotoRepository,
+    private modeleMotoRepository: ModeleMotoRepository
+  ) {}
 
-  constructor(motoRepository: MotoRepository) {
-    this.motoRepository = motoRepository;
-  }
+  public async execute(motoId: string): Promise<void> {
+    const moto = await this.motoRepository.findById(motoId);
+    if (!moto) throw new Error('Moto non trouvée');
 
-  public async execute(moto: Moto, dateEntretien: Date): Promise<void> {
-    // Logique pour planifier l'entretien
-    moto.dateProchainEntretien = dateEntretien;
+    const modele = await this.modeleMotoRepository.findByName(moto.modele);
+    if (!modele) throw new Error('Modèle de moto non trouvé');
 
-    // Sauvegarder les modifications
+    moto.intervalleEntretienKm = modele.intervalleEntretienKm;
+    moto.intervalleEntretienTemps = modele.intervalleEntretienTemps;
+
     await this.motoRepository.update(moto);
   }
 }

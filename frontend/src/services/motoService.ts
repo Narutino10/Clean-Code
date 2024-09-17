@@ -11,4 +11,7 @@ export const addMoto = async (moto: Moto): Promise<Moto> => {
     return response.data;
   };
   
+export const planifierEntretiens = async (motoId: string): Promise<void> => {
+    await api.post('/motos/planifier-entretiens', { motoId });
+  };
 // Ajoute d'autres fonctions pour créer, mettre à jour, supprimer des motos

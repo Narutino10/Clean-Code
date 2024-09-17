@@ -1,24 +1,36 @@
-import { Request, Response } from "express";
-import { PlanifierEntretien } from "../../application/use-cases/PlanifierEntretienUseCase";
-import { Moto } from "../../domain/entities/Moto";
-import { InMemoryMotoRepository } from "../../infrastructure/repositories/InMemoryMotoRepository";
+import { Request, Response } from 'express';
+import { PlanifierEntretiens } from '../../application/use-cases/PlanifierEntretiens';
 
 export class MotoController {
-  planifierEntretien(req: Request, res: Response): void {
-    const { id, modele, kilometrage, dateDernierEntretien, dateEntretien } = req.body;
+  constructor(
+    private planifierEntretiensUseCase: PlanifierEntretiens,
+    // autres cas d'utilisation
+  ) {}
 
-    // Création de l'entité Moto
-    const moto = new Moto(id, modele, kilometrage, new Date(dateDernierEntretien));
-
-    // Instanciation du repository
-    const motoRepository = new InMemoryMotoRepository();
-
-    // Instanciation du cas d'utilisation avec le repository
-    const useCase = new PlanifierEntretien(motoRepository);
-
-    // Exécution du cas d'utilisation avec les deux arguments requis
-    useCase.execute(moto, new Date(dateEntretien));
-
-    res.status(200).send(`Entretien planifié pour la moto ${modele}`);
+  public async planifierEntretiens(req: Request, res: Response): Promise<void> {
+    try {
+      const { motoId } = req.body;
+      await this.planifierEntretiensUseCase.execute(motoId);
+      res.status(200).json({ message: 'Entretiens planifiés avec succès' });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
   }
+  // src/interface/controllers/MotoController.ts
+
+public async mettreAJourKilometrage(req: Request, res: Response): Promise<void> {
+  try {
+    const { motoId, kilometrage } = req.body;
+    const moto = await this.motoRepository.findById(motoId);
+    if (!moto) throw new Error('Moto non trouvée');
+
+    moto.kilometrage = kilometrage;
+    await this.motoRepository.update(moto);
+
+    res.status(200).json({ message: 'Kilométrage mis à jour' });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 }
