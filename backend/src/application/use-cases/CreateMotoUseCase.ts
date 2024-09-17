@@ -1,7 +1,7 @@
 import { MotoRepository } from "../repositories/MotoRepository";
 import { Moto } from "../../domain/entities/Moto";
 
-interface CreateMotoDTO {  
+export interface CreateMotoDTO {  
     modele: string;
     kilometrage: number;
     dateDernierEntretien: Date;
@@ -16,6 +16,6 @@ export class CreateMotoUseCase {
         moto.kilometrage = data.kilometrage;
         moto.dateDernierEntretien = data.dateDernierEntretien;
 
-        return await this.motoRepository.save(moto);
+        return await this.motoRepository.save(moto); // Retourne Moto
     }
 }

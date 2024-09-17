@@ -30,7 +30,6 @@ export class CreateMotoCommandHandler {
       timestamp: new Date(),
     };
 
-    // Sauvegarder l'événement
     await this.eventStore.save(event);
   }
 }

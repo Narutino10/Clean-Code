@@ -1,9 +1,9 @@
 import { Moto } from '../../domain/entities/Moto';
 
 export interface MotoRepository {
-  findById(id: string): Promise<Moto | null>;
-  update(moto: Moto): Promise<void>;
-  save(moto: Moto): Promise<void>;
+  save(moto: Moto): Promise<Moto>; // Changement de Promise<void> à Promise<Moto>
   delete(id: string): Promise<void>;
   findAll(): Promise<Moto[]>;
+  findById(id: string): Promise<Moto | null>;
+  update(moto: Moto): Promise<Moto>;
 }

@@ -1,32 +1,37 @@
 import { Request, Response } from 'express';
-import { Mediator } from '../../application/mediator/Mediator';
-import { CreateMotoCommand } from '../../application/commands/CreateMotoCommand';
-import { GetAllMotosQuery } from '../../application/queries/GetAllMotosQuery';
+import { MotoRepository } from '../../application/repositories/MotoRepository';
+import { EventStore } from '../../application/event-store/EventStore';
+import { CreateMotoUseCase } from '../../application/use-cases/CreateMotoUseCase';
+import { CreateMotoDTO } from '../../application/use-cases/CreateMotoUseCase';
+import { GetAllMotosUseCase } from '../../application/use-cases/GetAllMotosUseCase';
 
 export class MotoController {
-  constructor(private mediator: Mediator) {}
+  private createMotoUseCase: CreateMotoUseCase;
+  private getAllMotosUseCase: GetAllMotosUseCase;
 
-  async createMoto(req: Request, res: Response): Promise<Response> {
+  constructor(private motoRepository: MotoRepository, private eventStore: EventStore) {
+    this.createMotoUseCase = new CreateMotoUseCase(this.motoRepository);
+    this.getAllMotosUseCase = new GetAllMotosUseCase(this.motoRepository);
+  }
+
+  public async createMoto(req: Request, res: Response): Promise<void> {
     try {
-      const command = new CreateMotoCommand(
-        req.body.modele,
-        req.body.kilometrage,
-        new Date(req.body.dateDernierEntretien)
-      );
-      await this.mediator.send(command);
-      return res.status(201).json({ message: 'Moto créée avec succès' });
+      const data: CreateMotoDTO = req.body;
+      const moto = await this.createMotoUseCase.execute(data);
+      res.status(201).json(moto);
     } catch (error: any) {
-      return res.status(400).json({ error: error.message });
+      res.status(400).json({ error: error.message });
     }
   }
 
-  async getAllMotos(req: Request, res: Response): Promise<Response> {
+  public async getAllMotos(req: Request, res: Response): Promise<void> {
     try {
-      const query = new GetAllMotosQuery();
-      const motos = await this.mediator.send(query);
-      return res.status(200).json(motos);
+      const motos = await this.getAllMotosUseCase.execute();
+      res.status(200).json(motos);
     } catch (error: any) {
-      return res.status(400).json({ error: error.message });
+      res.status(400).json({ error: error.message });
     }
   }
+
+  // Ajoutez d'autres méthodes si nécessaire
 }

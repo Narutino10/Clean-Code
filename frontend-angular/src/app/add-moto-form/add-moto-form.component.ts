@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-moto-form.component.css']
 })
 export class AddMotoFormComponent {
-  moto?: Moto = {
+  moto: Moto = {
     modele: '',
     kilometrage: 0,
     dateDernierEntretien: ''

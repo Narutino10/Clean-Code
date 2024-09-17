@@ -35,7 +35,7 @@ const EditMotoForm: React.FC = () => {
     try {
       await axios.put(`${process.env.REACT_APP_API_URL}/motos/${id}`, moto);
       alert('Moto mise à jour avec succès');
-      history.push('/motos');
+      history('/motos');
     } catch (error) {
       console.error('Erreur :', error);
     }
