@@ -6,19 +6,19 @@ export class TypeORMMotoRepository implements MotoRepository {
   private ormRepository = getRepository(Moto);
 
   async findById(id: string): Promise<Moto | null> {
-    return await this.ormRepository.findOne(id) || null;
+    return await this.ormRepository.findOne({ where: { id } }) || null;
   }
 
   async findAll(): Promise<Moto[]> {
     return await this.ormRepository.find();
   }
 
-  async save(moto: Moto): Promise<Moto> {
-    return await this.ormRepository.save(moto);
+    async save(moto: Moto): Promise<void> {
+      await this.ormRepository.save(moto);
   }
 
-  async update(moto: Moto): Promise<Moto> {
-    return await this.ormRepository.save(moto);
+  async update(moto: Moto): Promise<void> {
+    await this.ormRepository.save(moto);
   }
 
   async delete(id: string): Promise<void> {
