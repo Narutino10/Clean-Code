@@ -1,17 +1,19 @@
-import api from './api';
-import { Moto } from '../interfaces/Moto';
+import axios from 'axios';
 
-export const getMotos = async (): Promise<Moto[]> => {
-  const response = await api.get<Moto[]>('/motos');
+const api = axios.create({
+  baseURL: 'http://localhost:3000/api',
+});
+
+export const createMoto = async (data: {
+  modele: string;
+  kilometrage: number;
+  dateDernierEntretien: Date;
+}) => {
+  const response = await api.post('/motos', data);
   return response.data;
 };
 
-export const addMoto = async (moto: Moto): Promise<Moto> => {
-    const response = await api.post<Moto>('/motos', moto);
-    return response.data;
-  };
-  
-export const planifierEntretiens = async (motoId: string): Promise<void> => {
-    await api.post('/motos/planifier-entretiens', { motoId });
-  };
-// Ajoute d'autres fonctions pour créer, mettre à jour, supprimer des motos
+export const getAllMotos = async () => {
+  const response = await api.get('/motos');
+  return response.data;
+};

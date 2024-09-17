@@ -1,36 +1,37 @@
+// src/interface/controllers/MotoController.ts
+
 import { Request, Response } from 'express';
-import { PlanifierEntretiens } from '../../application/use-cases/PlanifierEntretiens';
+import { CreateMotoUseCase } from '../../application/use-cases/CreateMotoUseCase';
+import { GetAllMotosUseCase } from '../../application/use-cases/GetAllMotosUseCase';
 
 export class MotoController {
   constructor(
-    private planifierEntretiensUseCase: PlanifierEntretiens,
-    // autres cas d'utilisation
+    private createMotoUseCase: CreateMotoUseCase,
+    private getAllMotosUseCase: GetAllMotosUseCase
   ) {}
 
-  public async planifierEntretiens(req: Request, res: Response): Promise<void> {
+  async createMoto(req: Request, res: Response): Promise<Response> {
     try {
-      const { motoId } = req.body;
-      await this.planifierEntretiensUseCase.execute(motoId);
-      res.status(200).json({ message: 'Entretiens planifiés avec succès' });
+      const { modele, kilometrage, dateDernierEntretien } = req.body;
+      const moto = await this.createMotoUseCase.execute({
+        modele,
+        kilometrage,
+        dateDernierEntretien,
+      });
+      return res.status(201).json(moto);
     } catch (error: any) {
-      res.status(500).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   }
-  // src/interface/controllers/MotoController.ts
 
-public async mettreAJourKilometrage(req: Request, res: Response): Promise<void> {
-  try {
-    const { motoId, kilometrage } = req.body;
-    const moto = await this.motoRepository.findById(motoId);
-    if (!moto) throw new Error('Moto non trouvée');
-
-    moto.kilometrage = kilometrage;
-    await this.motoRepository.update(moto);
-
-    res.status(200).json({ message: 'Kilométrage mis à jour' });
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
+  async getAllMotos(req: Request, res: Response): Promise<Response> {
+    try {
+      const motos = await this.getAllMotosUseCase.execute();
+      return res.status(200).json(motos);
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
   }
-}
 
+  // Ajoute d'autres méthodes pour update, delete, etc.
 }
