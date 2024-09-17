@@ -17,3 +17,13 @@ export const getAllMotos = async () => {
   const response = await api.get('/motos');
   return response.data;
 };
+
+export const updateKilometrage = async (id: string, kilometrage: number) => {
+  const response = await api.put(`/motos/${id}/kilometrage`, { kilometrage });
+  return response.data;
+};
+
+export const planifierEntretiens = async () => {
+  const response = await api.post('/entretiens/planifier');
+  return response.data;
+};
