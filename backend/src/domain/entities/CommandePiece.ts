@@ -8,6 +8,7 @@ export class CommandePiece {
 
   @ManyToOne(() => PieceDetachee, (piece) => piece.commandes)
   piece!: PieceDetachee;
+  
   @Column({ type: 'date' })
   dateCommande!: Date;
 
