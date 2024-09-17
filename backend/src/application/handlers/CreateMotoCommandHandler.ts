@@ -1,5 +1,3 @@
-// src/application/handlers/CreateMotoCommandHandler.ts
-
 import { CreateMotoCommand } from '../commands/CreateMotoCommand';
 import { MotoRepository } from '../repositories/MotoRepository';
 import { EventStore } from '../event-store/EventStore';

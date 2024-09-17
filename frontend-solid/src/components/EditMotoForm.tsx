@@ -1,5 +1,5 @@
 import { createSignal, onMount, Component } from 'solid-js';
-import { useParams, useNavigate } from 'solid-app-router';
+import { useParams, useNavigate } from '@solidjs/router';
 
 interface Moto {
   modele: string;

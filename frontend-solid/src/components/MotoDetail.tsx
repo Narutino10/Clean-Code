@@ -1,5 +1,5 @@
 import { createSignal, onMount, Component } from 'solid-js';
-import { useParams } from 'solid-app-router';
+import { useParams, useNavigate } from '@solidjs/router';
 
 interface Moto {
   id: string;
@@ -23,9 +23,9 @@ const MotoDetail: Component = () => {
 
   return (
     <div>
-      <h2>{moto().modele}</h2>
-      <p>Kilométrage : {moto().kilometrage} km</p>
-      <p>Date du dernier entretien : {moto().dateDernierEntretien}</p>
+      <h2>{moto()?.modele}</h2>
+      <p>Kilométrage : {moto()?.kilometrage} km</p>
+      <p>Date du dernier entretien : {moto()?.dateDernierEntretien}</p>
     </div>
   );
 };

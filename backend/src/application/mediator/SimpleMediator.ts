@@ -1,3 +1,4 @@
+import { Mediator } from './Mediator';
 export class SimpleMediator implements Mediator {
     private handlers = new Map();
   
@@ -5,12 +6,13 @@ export class SimpleMediator implements Mediator {
       this.handlers.set(requestType, handler);
     }
   
-    async send<T>(request: T): Promise<any> {
-      const handler = this.handlers.get(request.constructor);
-      if (!handler) {
-        throw new Error('Handler not found for request');
+    async send<T extends object>(request: T): Promise<any> {
+        const handler = this.handlers.get(request.constructor);
+        if (!handler) {
+          throw new Error('Handler not found for request');
+        }
+        return await handler.handle(request);
       }
-      return await handler.handle(request);
-    }
+      
   }
   

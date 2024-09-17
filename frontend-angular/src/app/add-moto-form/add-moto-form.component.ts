@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { MotoService, Moto } from '../services/moto.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-add-moto-form',
   templateUrl: './add-moto-form.component.html',
   styleUrls: ['./add-moto-form.component.css']
 })
 export class AddMotoFormComponent {
-  moto: Moto = {
+  moto?: Moto = {
     modele: '',
     kilometrage: 0,
     dateDernierEntretien: ''

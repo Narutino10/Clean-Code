@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate  } from 'react-router-dom';
 
 interface Moto {
   modele: string;
@@ -10,7 +10,7 @@ interface Moto {
 
 const EditMotoForm: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const history = useHistory();
+  const history = useNavigate ();
   const [moto, setMoto] = useState<Moto>({
     modele: '',
     kilometrage: 0,

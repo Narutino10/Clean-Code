@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Moto {
-  id: string;
+  id?: string;
   modele: string;
   kilometrage: number;
+  dateDernierEntretien: string;
+
 }
 
 @Injectable({
@@ -31,4 +33,6 @@ export class MotoService {
   updateMoto(id: string, moto: Moto): Observable<Moto> {
     return this.http.put<Moto>(`${this.apiUrl}/${id}`, moto);
   }
+
+
 }
