@@ -1,24 +1,20 @@
-// src/interface/controllers/MotoController.ts
-
 import { Request, Response } from 'express';
-import { CreateMotoUseCase } from '../../application/use-cases/CreateMotoUseCase';
-import { GetAllMotosUseCase } from '../../application/use-cases/GetAllMotosUseCase';
+import { Mediator } from '../../application/mediator/Mediator';
+import { CreateMotoCommand } from '../../application/commands/CreateMotoCommand';
+import { GetAllMotosQuery } from '../../application/queries/GetAllMotosQuery';
 
 export class MotoController {
-  constructor(
-    private createMotoUseCase: CreateMotoUseCase,
-    private getAllMotosUseCase: GetAllMotosUseCase
-  ) {}
+  constructor(private mediator: Mediator) {}
 
   async createMoto(req: Request, res: Response): Promise<Response> {
     try {
-      const { modele, kilometrage, dateDernierEntretien } = req.body;
-      const moto = await this.createMotoUseCase.execute({
-        modele,
-        kilometrage,
-        dateDernierEntretien,
-      });
-      return res.status(201).json(moto);
+      const command = new CreateMotoCommand(
+        req.body.modele,
+        req.body.kilometrage,
+        new Date(req.body.dateDernierEntretien)
+      );
+      await this.mediator.send(command);
+      return res.status(201).json({ message: 'Moto créée avec succès' });
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
@@ -26,12 +22,11 @@ export class MotoController {
 
   async getAllMotos(req: Request, res: Response): Promise<Response> {
     try {
-      const motos = await this.getAllMotosUseCase.execute();
+      const query = new GetAllMotosQuery();
+      const motos = await this.mediator.send(query);
       return res.status(200).json(motos);
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
   }
-
-  // Ajoute d'autres méthodes pour update, delete, etc.
 }
