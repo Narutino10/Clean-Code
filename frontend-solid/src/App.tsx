@@ -1,26 +1,26 @@
-import type { Component } from 'solid-js';
+// src/App.tsx
 
-import logo from './logo.svg';
-import styles from './App.module.css';
+import { Router, Route, Routes } from '@solidjs/router';
+import HelloWorld from './components/HelloWorld';
+import MotoList from './components/MotoList';
+import AddMotoForm from './components/AddMotoForm';
+import MotoDetail from './components/MotoDetail';
+import EditMotoForm from './components/EditMotoForm';
 
 const App: Component = () => {
   return (
-    <div class={styles.App}>
-      <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Solid
-        </a>
-      </header>
-    </div>
+    <Router>
+      <nav>
+        <a href="/hello">Hello World</a> | <a href="/motos">Liste des Motos</a> | <a href="/motos/add">Ajouter une Moto</a>
+      </nav>
+      <Routes>
+        <Route path="/hello" component={HelloWorld} />
+        <Route path="/motos" component={MotoList} />
+        <Route path="/motos/add" component={AddMotoForm} />
+        <Route path="/motos/:id" component={MotoDetail} />
+        <Route path="/motos/:id/edit" component={EditMotoForm} />
+      </Routes>
+    </Router>
   );
 };
 

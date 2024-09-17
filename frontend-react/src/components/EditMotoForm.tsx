@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams, useHistory } from 'react-router-dom';
 
 interface Moto {
   modele: string;
@@ -7,12 +8,20 @@ interface Moto {
   dateDernierEntretien: string;
 }
 
-const AddMotoForm: React.FC = () => {
+const EditMotoForm: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const history = useHistory();
   const [moto, setMoto] = useState<Moto>({
     modele: '',
     kilometrage: 0,
     dateDernierEntretien: '',
   });
+
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_API_URL}/motos/${id}`)
+      .then(response => setMoto(response.data))
+      .catch(error => console.error(error));
+  }, [id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMoto({
@@ -24,9 +33,9 @@ const AddMotoForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/motos`, moto);
-      alert('Moto ajoutée avec succès');
-      setMoto({ modele: '', kilometrage: 0, dateDernierEntretien: '' });
+      await axios.put(`${process.env.REACT_APP_API_URL}/motos/${id}`, moto);
+      alert('Moto mise à jour avec succès');
+      history.push('/motos');
     } catch (error) {
       console.error('Erreur :', error);
     }
@@ -61,9 +70,9 @@ const AddMotoForm: React.FC = () => {
         required
       />
 
-      <button type="submit">Ajouter la moto</button>
+      <button type="submit">Mettre à jour la moto</button>
     </form>
   );
 };
 
-export default AddMotoForm;
+export default EditMotoForm;

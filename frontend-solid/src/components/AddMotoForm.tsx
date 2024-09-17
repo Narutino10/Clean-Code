@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { createSignal, Component } from 'solid-js';
 
 interface Moto {
   modele: string;
@@ -7,24 +6,26 @@ interface Moto {
   dateDernierEntretien: string;
 }
 
-const AddMotoForm: React.FC = () => {
-  const [moto, setMoto] = useState<Moto>({
+const AddMotoForm: Component = () => {
+  const [moto, setMoto] = createSignal<Moto>({
     modele: '',
     kilometrage: 0,
     dateDernierEntretien: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMoto({
-      ...moto,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e: Event & { currentTarget: HTMLInputElement }) => {
+    const { name, value } = e.currentTarget;
+    setMoto({ ...moto(), [name]: value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: Event) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/motos`, moto);
+      await fetch(`${import.meta.env.VITE_API_URL}/motos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(moto()),
+      });
       alert('Moto ajoutée avec succès');
       setMoto({ modele: '', kilometrage: 0, dateDernierEntretien: '' });
     } catch (error) {
@@ -38,8 +39,8 @@ const AddMotoForm: React.FC = () => {
       <input
         type="text"
         name="modele"
-        value={moto.modele}
-        onChange={handleChange}
+        value={moto().modele}
+        onInput={handleChange}
         required
       />
 
@@ -47,8 +48,8 @@ const AddMotoForm: React.FC = () => {
       <input
         type="number"
         name="kilometrage"
-        value={moto.kilometrage}
-        onChange={handleChange}
+        value={moto().kilometrage}
+        onInput={handleChange}
         required
       />
 
@@ -56,8 +57,8 @@ const AddMotoForm: React.FC = () => {
       <input
         type="date"
         name="dateDernierEntretien"
-        value={moto.dateDernierEntretien}
-        onChange={handleChange}
+        value={moto().dateDernierEntretien}
+        onInput={handleChange}
         required
       />
 

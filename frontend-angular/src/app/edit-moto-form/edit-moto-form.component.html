@@ -1,0 +1,30 @@
+<p>edit-moto-form works!</p>
+
+<form (ngSubmit)="handleSubmit()">
+    <label>Modèle :</label>
+    <input
+      type="text"
+      [(ngModel)]="moto.modele"
+      name="modele"
+      required
+    />
+  
+    <label>Kilométrage :</label>
+    <input
+      type="number"
+      [(ngModel)]="moto.kilometrage"
+      name="kilometrage"
+      required
+    />
+  
+    <label>Date du dernier entretien :</label>
+    <input
+      type="date"
+      [(ngModel)]="moto.dateDernierEntretien"
+      name="dateDernierEntretien"
+      required
+    />
+  
+    <button type="submit">Mettre à jour la moto</button>
+  </form>
+  

@@ -1,0 +1,10 @@
+<p>moto-detail works!</p>
+<div *ngIf="moto">
+    <h2>{{ moto.modele }}</h2>
+    <p>Kilométrage : {{ moto.kilometrage }} km</p>
+    <p>Date du dernier entretien : {{ moto.dateDernierEntretien }}</p>
+  </div>
+  <div *ngIf="!moto">
+    Loading...
+  </div>
+  
