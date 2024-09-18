@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Entretien } from '../interfaces/Entretien';
-import { getEntretiens } from '../services/motoService';
+import { getEntretiens } from '../services/entretienService';
 
 const HistoriqueEntretiens: React.FC = () => {
   const [entretiens, setEntretiens] = useState<Entretien[]>([]);

@@ -1,25 +1,25 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import './styles/App.css';
 import MotoList from './components/MotoList';
-import HistoriqueEntretiens from './components/HistoriqueEntretiens';
-import PlanifierEntretiens from './components/PlanifierEntretiens';
-import ErrorBoundary from './components/ErrorBoundary';
+import AddMotoForm from './components/AddMotoForm';
 
-const App: React.FC = () => {
+function App() {
   return (
-    <ErrorBoundary>
-      <Router>
-        <div>
-          <h1>Application de Gestion de Motos</h1>
-          <Routes>
-            <Route path="/" element={<MotoList />} />
-            <Route path="/historique" element={<HistoriqueEntretiens />} />
-            <Route path="/planifier" element={<PlanifierEntretiens />} />
-          </Routes>
-        </div>
-      </Router>
-    </ErrorBoundary>
+    <div className="container">
+      <header className="header">
+        <h1>Gestion des Motos</h1>
+      </header>
+
+      <section className="main-content">
+        <MotoList />
+        <AddMotoForm />
+      </section>
+
+      <footer className="footer">
+        <p>&copy; 2024 Gestion des Motos</p>
+      </footer>
+    </div>
   );
-};
+}
 
 export default App;

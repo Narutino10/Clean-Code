@@ -1,11 +1,7 @@
-import axios from 'axios';
+import api from './api'; 
+import { Entretien } from '../interfaces/Entretien'; // Assurez-vous que le chemin est correct
 
-const api = axios.create({
-  baseURL: 'http://localhost:3000/api',
-});
-
-export const getEntretiens = async () => {
-  const response = await api.get('/entretiens');
+export const getEntretiens = async (motoId: string): Promise<Entretien[]> => {
+  const response = await api.get(`/motos/${motoId}/entretiens`);
   return response.data;
 };
-

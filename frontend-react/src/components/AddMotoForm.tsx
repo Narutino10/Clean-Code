@@ -1,67 +1,38 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-
-interface Moto {
-  modele: string;
-  kilometrage: number;
-  dateDernierEntretien: string;
-}
+import { createMoto } from '../services/motoService';
 
 const AddMotoForm: React.FC = () => {
-  const [moto, setMoto] = useState<Moto>({
-    modele: '',
-    kilometrage: 0,
-    dateDernierEntretien: '',
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMoto({
-      ...moto,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const [modele, setModele] = useState('');
+  const [kilometrage, setKilometrage] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/motos`, moto);
+      await createMoto({ modele, kilometrage, dateDernierEntretien: new Date() });
       alert('Moto ajoutée avec succès');
-      setMoto({ modele: '', kilometrage: 0, dateDernierEntretien: '' });
     } catch (error) {
-      console.error('Erreur :', error);
+      console.error('Erreur lors de l\'ajout de la moto', error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>Modèle :</label>
+      <h2>Ajouter une Moto</h2>
       <input
         type="text"
-        name="modele"
-        value={moto.modele}
-        onChange={handleChange}
+        placeholder="Modèle"
+        value={modele}
+        onChange={(e) => setModele(e.target.value)}
         required
       />
-
-      <label>Kilométrage :</label>
       <input
         type="number"
-        name="kilometrage"
-        value={moto.kilometrage}
-        onChange={handleChange}
+        placeholder="Kilométrage"
+        value={kilometrage}
+        onChange={(e) => setKilometrage(Number(e.target.value))}
         required
       />
-
-      <label>Date du dernier entretien :</label>
-      <input
-        type="date"
-        name="dateDernierEntretien"
-        value={moto.dateDernierEntretien}
-        onChange={handleChange}
-        required
-      />
-
-      <button type="submit">Ajouter la moto</button>
+      <button type="submit">Ajouter</button>
     </form>
   );
 };

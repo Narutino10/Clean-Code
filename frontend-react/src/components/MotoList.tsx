@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Moto } from '../interfaces/Moto';
 import { getAllMotos } from '../services/motoService';
 
+// Définition de l'interface pour le type des motos
+interface Moto {
+  id: string;
+  modele: string;
+  kilometrage: number;
+}
+
 const MotoList: React.FC = () => {
-  const [motos, setMotos] = useState<Moto[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
+  const [motos, setMotos] = useState<Moto[]>([]); // Spécification du type du tableau de motos
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchMotos = async () => {
@@ -22,13 +28,13 @@ const MotoList: React.FC = () => {
     fetchMotos();
   }, []);
 
-  if (loading) return <div>Chargement...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <p>Chargement...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div>
-      <h2>Liste des motos</h2>
-      <ul>
+      <h2>Liste des Motos</h2>
+      <ul className="moto-list">
         {motos.map((moto) => (
           <li key={moto.id}>
             {moto.modele} - {moto.kilometrage} km
