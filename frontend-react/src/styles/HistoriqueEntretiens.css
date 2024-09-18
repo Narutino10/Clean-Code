@@ -1,0 +1,23 @@
+.historique-entretiens {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .historique-entretiens ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .historique-entretiens ul li {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+  
+  .historique-entretiens h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  

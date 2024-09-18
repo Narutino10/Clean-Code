@@ -1,25 +1,29 @@
 import React from 'react';
-import './styles/App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MotoList from './components/MotoList';
 import AddMotoForm from './components/AddMotoForm';
+import EditMotoForm from './components/EditMotoForm';
+import HistoriqueEntretiens from './components/HistoriqueEntretiens';
+import PlanifierEntretiens from './components/PlanifierEntretiens';
+import Navbar from './components/Navbar';
+import './styles/App.css';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="container">
-      <header className="header">
-        <h1>Gestion des Motos</h1>
-      </header>
-
-      <section className="main-content">
-        <MotoList />
-        <AddMotoForm />
-      </section>
-
-      <footer className="footer">
-        <p>&copy; 2024 Gestion des Motos</p>
-      </footer>
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<MotoList />} />
+          <Route path="/motos" element={<MotoList />} />
+          <Route path="/add-moto" element={<AddMotoForm />} />
+          <Route path="/edit-moto/:id" element={<EditMotoForm />} />
+          <Route path="/entretiens" element={<HistoriqueEntretiens motoId="1" />} />
+          <Route path="/planifier-entretiens" element={<PlanifierEntretiens />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;

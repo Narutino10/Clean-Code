@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import * as dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config(); // Charger les variables d'environnement
 
 import { AppDataSource } from './data-source';
@@ -11,6 +12,9 @@ import { MotoController } from './interface/controllers/MotoController';
 import { TypeORMEventStore } from './infrastructure/event-store/TypeORMEventStore';
 
 import createMotoRoutes from './interface/routes/motoRoutes';
+
+app.use(cors());
+// app.use(express.json());
 
 AppDataSource.initialize()
   .then(() => {
@@ -26,7 +30,7 @@ AppDataSource.initialize()
 
     // Créer les routes avec les contrôleurs
     const motoRoutes = createMotoRoutes(motoController);
-    app.use('/api/motos', motoRoutes);
+    app.use('/motos', motoRoutes);
 
     const port = process.env.PORT || 3001;
     app.listen(port, () => {
