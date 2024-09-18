@@ -11,13 +11,10 @@ export class Conducteur {
   nom!: string;
 
   @Column()
-  prenom!: string;
+  permis!: string;
 
   @Column()
-  numeroPermis!: string;
-
-  @Column()
-  experience!: number; // En années
+  experience!: number;
 
   @OneToMany(() => Essai, (essai) => essai.conducteur)
   essais!: Essai[];

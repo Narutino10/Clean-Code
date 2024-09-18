@@ -14,8 +14,8 @@ export class Essai {
   conducteur!: Conducteur;
 
   @Column({ type: 'date' })
-  dateDebut!: Date;
+  dateEssai!: Date;
 
-  @Column({ type: 'date' })
-  dateFin!: Date;
+  @Column()
+  duree!: number;
 }

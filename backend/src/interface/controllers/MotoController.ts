@@ -1,22 +1,27 @@
+// src/interface/controllers/MotoController.ts
 import { Request, Response } from 'express';
 import { MotoRepository } from '../../application/repositories/MotoRepository';
+import { ModeleMotoRepository } from '../../application/repositories/ModeleMotoRepository'; 
 import { EventStore } from '../../application/event-store/EventStore';
 import { CreateMotoUseCase } from '../../application/use-cases/CreateMotoUseCase';
-import { CreateMotoDTO } from '../../application/use-cases/CreateMotoUseCase';
 import { GetAllMotosUseCase } from '../../application/use-cases/GetAllMotosUseCase';
 
 export class MotoController {
   private createMotoUseCase: CreateMotoUseCase;
   private getAllMotosUseCase: GetAllMotosUseCase;
 
-  constructor(private motoRepository: MotoRepository, private eventStore: EventStore) {
-    this.createMotoUseCase = new CreateMotoUseCase(this.motoRepository);
+  constructor(
+    private motoRepository: MotoRepository, 
+    private modeleMotoRepository: ModeleMotoRepository, // Ajoutez cette ligne
+    private eventStore: EventStore
+  ) {
+    this.createMotoUseCase = new CreateMotoUseCase(this.motoRepository, this.modeleMotoRepository); 
     this.getAllMotosUseCase = new GetAllMotosUseCase(this.motoRepository);
   }
 
   public async createMoto(req: Request, res: Response): Promise<void> {
     try {
-      const data: CreateMotoDTO = req.body;
+      const data = req.body;
       const moto = await this.createMotoUseCase.execute(data);
       res.status(201).json(moto);
     } catch (error: any) {
@@ -32,6 +37,4 @@ export class MotoController {
       res.status(400).json({ error: error.message });
     }
   }
-
-  // Ajoutez d'autres méthodes si nécessaire
 }

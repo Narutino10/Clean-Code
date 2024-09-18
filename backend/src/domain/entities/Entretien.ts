@@ -9,18 +9,15 @@ export class Entretien {
   @ManyToOne(() => Moto, (moto) => moto.entretiens)
   moto!: Moto;
 
-  @Column({ type: 'date' })
-  date!: Date;
-
   @Column()
   description!: string;
-
-  @Column('simple-array')
-  piecesChangees!: string[];
 
   @Column('decimal')
   coutTotal!: number;
 
-  @Column()
-  recommandations!: string;
+  @Column('simple-array')
+  piecesChangees!: string[];
+
+  @Column({ type: 'date' })
+  date!: Date;
 }

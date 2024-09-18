@@ -9,15 +9,9 @@ export class Panne {
   @ManyToOne(() => Moto, (moto) => moto.pannes)
   moto!: Moto;
 
-  @Column({ type: 'date' })
-  date!: Date;
-
   @Column()
   description!: string;
 
-  @Column()
-  estSousGarantie!: boolean;
-
-  @Column()
-  actionCorrective!: string;
+  @Column({ type: 'date' })
+  date!: Date;
 }

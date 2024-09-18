@@ -6,11 +6,11 @@ import { AppDataSource } from './data-source';
 import app from './interface/server';
 
 import { TypeORMMotoRepository } from './infrastructure/repositories/TypeORMMotoRepository';
+import { ModeleMotoRepository } from './application/repositories/ModeleMotoRepository'; // Assurez-vous que le chemin est correct
 import { MotoController } from './interface/controllers/MotoController';
 import { TypeORMEventStore } from './infrastructure/event-store/TypeORMEventStore';
 
 import createMotoRoutes from './interface/routes/motoRoutes';
-// Importez d'autres routes ici si nécessaire
 
 AppDataSource.initialize()
   .then(() => {
@@ -18,19 +18,17 @@ AppDataSource.initialize()
 
     // Instancier les repositories
     const motoRepository = new TypeORMMotoRepository();
+    const modeleMotoRepository = new ModeleMotoRepository(AppDataSource); // Passer l'AppDataSource ici
     const eventStore = new TypeORMEventStore();
 
     // Instancier les contrôleurs avec les dépendances
-    const motoController = new MotoController(motoRepository, eventStore);
-    // Instancier d'autres contrôleurs si nécessaire
+    const motoController = new MotoController(motoRepository, modeleMotoRepository, eventStore);
 
     // Créer les routes avec les contrôleurs
     const motoRoutes = createMotoRoutes(motoController);
     app.use('/api/motos', motoRoutes);
 
-    // Importer et utiliser d'autres routes ici si nécessaire
-
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT || 3001;
     app.listen(port, () => {
       console.log(`Serveur démarré sur le port ${port}`);
     });

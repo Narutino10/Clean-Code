@@ -1,37 +1,33 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { ModeleMoto } from './ModeleMoto'; 
 import { Entretien } from './Entretien';
-import { Panne } from './Panne';
 import { Essai } from './Essai';
-
+import { Incident } from './Incident';
+import { Panne } from './Panne';
 
 @Entity()
 export class Moto {
   @PrimaryGeneratedColumn('uuid')
-  id!: string; // Ajout de '!' pour indiquer que la propriété sera initialisée
+  id!: string;
 
-  @Column()
-  modele!: string;
+  @ManyToOne(() => ModeleMoto, (modele) => modele.motos)
+  modele!: ModeleMoto; 
 
-  @Column()
+  @Column('int')
   kilometrage!: number;
 
   @Column({ type: 'date' })
   dateDernierEntretien!: Date;
 
-  @Column()
-  intervalleEntretienKm!: number;
-
-  @Column()
-  intervalleEntretienTemps!: number;
-
-  // Relations avec d'autres entités
   @OneToMany(() => Entretien, (entretien) => entretien.moto)
   entretiens!: Entretien[];
 
-  @OneToMany(() => Panne, (panne) => panne.moto)
-  pannes!: Panne[];
-
   @OneToMany(() => Essai, (essai) => essai.moto)
   essais!: Essai[];
+
+  @OneToMany(() => Incident, (incident) => incident.moto)
+  incidents!: Incident[];
+
+  @OneToMany(() => Panne, (panne) => panne.moto)
+  pannes!: Panne[];
 }

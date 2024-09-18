@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Conducteur } from './Conducteur';
+import { Moto } from './Moto';
 
 @Entity()
 export class Incident {
@@ -9,11 +10,11 @@ export class Incident {
   @ManyToOne(() => Conducteur, (conducteur) => conducteur.incidents)
   conducteur!: Conducteur;
 
+  @ManyToOne(() => Moto, (moto) => moto.incidents)
+  moto!: Moto;
+
   @Column({ type: 'date' })
   date!: Date;
-
-  @Column()
-  type!: string; // Accident, infraction, etc.
 
   @Column()
   description!: string;

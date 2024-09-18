@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { CommandePiece } from './CommandePiece';
 
 @Entity()
@@ -12,13 +12,6 @@ export class PieceDetachee {
   @Column('decimal')
   prix!: number;
 
-  @Column()
-  quantiteEnStock!: number;
-
-  @Column()
-  seuilCritique!: number;
-
-  @OneToMany(() => CommandePiece, (commandePiece) => commandePiece.piece)
+  @OneToMany(() => CommandePiece, (commande) => commande.piece)
   commandes!: CommandePiece[];
-
 }

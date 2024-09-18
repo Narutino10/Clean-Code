@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Moto } from './Moto';
 
 @Entity()
 export class ModeleMoto {
@@ -9,8 +10,11 @@ export class ModeleMoto {
   nom!: string;
 
   @Column()
-  intervalleEntretienKm!: number;
+  entretienIntervalKm!: number;
 
   @Column()
-  intervalleEntretienTemps!: number; // En mois
+  entretienIntervalTemps!: number;
+
+  @OneToMany(() => Moto, (moto) => moto.modele)
+  motos!: Moto[];
 }
