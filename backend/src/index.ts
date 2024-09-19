@@ -1,20 +1,16 @@
 import 'reflect-metadata';
 import * as dotenv from 'dotenv';
-import cors from 'cors';
 dotenv.config(); // Charger les variables d'environnement
 
 import { AppDataSource } from './data-source';
 import app from './interface/server';
 
 import { TypeORMMotoRepository } from './infrastructure/repositories/TypeORMMotoRepository';
-import { ModeleMotoRepository } from './application/repositories/ModeleMotoRepository'; // Assurez-vous que le chemin est correct
-import { MotoController } from './interface/controllers/MotoController';
+import { ModeleMotoRepository } from './application/repositories/ModeleMotoRepository';
+import { TypeORMEntretienRepository } from './infrastructure/repositories/TypeORMEntretienRepository';
 import { TypeORMEventStore } from './infrastructure/event-store/TypeORMEventStore';
-
+import { MotoController } from './interface/controllers/MotoController';
 import createMotoRoutes from './interface/routes/motoRoutes';
-
-app.use(cors());
-// app.use(express.json());
 
 AppDataSource.initialize()
   .then(() => {
@@ -22,15 +18,21 @@ AppDataSource.initialize()
 
     // Instancier les repositories
     const motoRepository = new TypeORMMotoRepository();
-    const modeleMotoRepository = new ModeleMotoRepository(AppDataSource); // Passer l'AppDataSource ici
+    const modeleMotoRepository = new ModeleMotoRepository(AppDataSource);
+    const entretienRepository = new TypeORMEntretienRepository();
     const eventStore = new TypeORMEventStore();
 
-    // Instancier les contrôleurs avec les dépendances
-    const motoController = new MotoController(motoRepository, modeleMotoRepository, eventStore);
+    // Instancier le contrôleur avec les dépendances
+    const motoController = new MotoController(
+      motoRepository,
+      modeleMotoRepository,
+      entretienRepository,
+      eventStore // Ajout de eventStore comme argument
+    );
 
     // Créer les routes avec les contrôleurs
-    const motoRoutes = createMotoRoutes(motoController);
-    app.use('/motos', motoRoutes);
+    const motoRoutes = createMotoRoutes(motoController, entretienRepository);
+    app.use('/api/motos', motoRoutes);
 
     const port = process.env.PORT || 3001;
     app.listen(port, () => {
