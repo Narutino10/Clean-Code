@@ -1,6 +1,8 @@
-import 'reflect-metadata';
+import 'reflect-metadata'; 
 import * as dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config(); // Charger les variables d'environnement
+app.use(cors()); // Activer CORS pour les requêtes HTTP
 
 import { AppDataSource } from './data-source';
 import app from './interface/server';

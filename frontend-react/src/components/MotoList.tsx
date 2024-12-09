@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { getAllMotos } from '../services/motoService';
 import '../styles/MotoList.css';
 
+interface Moto {
+  id: number;
+  modele: string;
+  kilometrage: number;
+}
+
 const MotoList: React.FC = () => {
   const [motos, setMotos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
