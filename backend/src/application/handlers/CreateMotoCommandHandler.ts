@@ -1,35 +1,33 @@
-import { CreateMotoCommand } from '../commands/CreateMotoCommand';
-import { MotoRepository } from '../repositories/MotoRepository';
-import { EventStore } from '../event-store/EventStore';
-import { Moto } from '../../domain/entities/Moto';
-import { v4 as uuidv4 } from 'uuid';
+// Exemple corrigé pour CreateMotoCommandHandler.ts
+import { CreateMotoCommand } from "../commands/CreateMotoCommand";
+import { MotoRepository } from "../repositories/MotoRepository";
+import { ModeleMotoRepository } from "../repositories/ModeleMotoRepository";
+import { Moto } from "../../domain/entities/Moto";
 
 export class CreateMotoCommandHandler {
-  constructor(
-    private motoRepository: MotoRepository,
-    private eventStore: EventStore
-  ) {}
+    constructor(
+        private readonly motoRepository: MotoRepository,
+        private readonly modeleMotoRepository: ModeleMotoRepository
+    ) {}
 
-  async handle(command: CreateMotoCommand): Promise<void> {
-    const moto = new Moto();
-    moto.modele = command.modele;
-    moto.kilometrage = command.kilometrage;
-    moto.dateDernierEntretien = command.dateDernierEntretien;
+    public async handle(command: CreateMotoCommand): Promise<Moto> {
+        const { modele, kilometrage, dateDernierEntretien } = command;
 
-    await this.motoRepository.save(moto);
+        // Récupérer le modèle de moto à partir du repository
+        const modeleMoto = await this.modeleMotoRepository.findByName(modele);
+        if (!modeleMoto) {
+            throw new Error(`Le modèle de moto '${modele}' n'existe pas.`);
+        }
 
-    const event = {
-      id: uuidv4(),
-      aggregateId: moto.id,
-      type: 'MotoCreated',
-      data: {
-        modele: moto.modele,
-        kilometrage: moto.kilometrage,
-        dateDernierEntretien: moto.dateDernierEntretien,
-      },
-      timestamp: new Date(),
-    };
+        // Créer une nouvelle instance de Moto
+        const moto = new Moto();
+        moto.modele = modeleMoto;
+        moto.kilometrage = kilometrage;
+        moto.dateDernierEntretien = dateDernierEntretien;
 
-    await this.eventStore.save(event);
-  }
+        // Sauvegarder la moto dans le repository
+        await this.motoRepository.save(moto);
+
+        return moto;
+    }
 }

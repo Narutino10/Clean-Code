@@ -2,7 +2,7 @@
 FROM node:14-alpine
 
 # Installer nodemon globalement
-RUN npm install -g nodemon
+RUN npm install -g nodemon ts-node typescript
 
 # Définir le répertoire de travail dans le conteneur
 WORKDIR /app
@@ -15,6 +15,9 @@ RUN npm install
 
 # Copier le reste du code de l'application
 COPY . .
+
+# Compiler le code TypeScript
+RUN npx tsc --project tsconfig.json
 
 # Exposer le port sur lequel l'application écoute (par exemple, 3000)
 EXPOSE 3000

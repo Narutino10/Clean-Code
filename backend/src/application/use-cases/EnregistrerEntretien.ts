@@ -1,33 +1,44 @@
+// Exemple corrigé pour EnregistrerEntretien.ts
+import { EntretienRepository } from "../repositories/EntretienRepository";
+import { MotoRepository } from "../repositories/MotoRepository";
+import { Entretien } from "../../domain/entities/Entretien";
 
-import { EntretienRepository } from '../repositories/EntretienRepository';
-import { MotoRepository } from '../repositories/MotoRepository';
-import { Entretien } from '../../domain/entities/Entretien';
-
-export class EnregistrerEntretien {
-  constructor(
-    private entretienRepository: EntretienRepository,
-    private motoRepository: MotoRepository
-  ) {}
-
-  public async execute(data: {
+interface EnregistrerEntretienParams {
     motoId: string;
     date: Date;
     description: string;
     piecesChangees: string[];
     coutTotal: number;
-    recommandations: string;
-  }): Promise<void> {
-    const moto = await this.motoRepository.findById(data.motoId);
-    if (!moto) throw new Error('Moto non trouvée');
+    recommandations?: string;
+}
 
-    const entretien = new Entretien();
-    entretien.moto = moto;
-    entretien.date = data.date;
-    entretien.description = data.description;
-    entretien.piecesChangees = data.piecesChangees;
-    entretien.coutTotal = data.coutTotal;
-    entretien.recommandations = data.recommandations;
+export class EnregistrerEntretien {
+    constructor(
+        private readonly entretienRepository: EntretienRepository,
+        private readonly motoRepository: MotoRepository
+    ) {}
 
-    await this.entretienRepository.save(entretien);
-  }
+    public async execute(params: EnregistrerEntretienParams): Promise<Entretien> {
+        const { motoId, date, description, piecesChangees, coutTotal, recommandations } = params;
+
+        // Vérifier si la moto existe
+        const moto = await this.motoRepository.findById(motoId);
+        if (!moto) {
+            throw new Error(`La moto avec l'ID '${motoId}' n'existe pas.`);
+        }
+
+        // Créer un nouvel entretien
+        const entretien = new Entretien();
+        entretien.moto = moto;
+        entretien.date = date;
+        entretien.description = description;
+        entretien.piecesChangees = piecesChangees;
+        entretien.coutTotal = coutTotal;
+        entretien.recommandations = recommandations;
+
+        // Sauvegarder l'entretien
+        await this.entretienRepository.save(entretien);
+
+        return entretien;
+    }
 }

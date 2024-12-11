@@ -30,4 +30,7 @@ export class Moto {
 
   @OneToMany(() => Panne, (panne) => panne.moto)
   pannes!: Panne[];
+
+  intervalleEntretienKm?: number; // Ajout
+  intervalleEntretienTemps?: number; // Ajout
 }

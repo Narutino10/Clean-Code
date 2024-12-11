@@ -20,4 +20,7 @@ export class Entretien {
 
   @Column({ type: 'date' })
   date!: Date;
+
+  recommandations?: string; // Ajout
+
 }

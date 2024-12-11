@@ -14,4 +14,7 @@ export class Panne {
 
   @Column({ type: 'date' })
   date!: Date;
+
+  estSousGarantie?: boolean; // Ajout
+  actionCorrective?: string; // Ajout
 }
