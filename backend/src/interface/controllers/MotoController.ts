@@ -57,7 +57,7 @@ export class MotoController {
 
     public async getMotoById(req: Request, res: Response): Promise<void> {
       try {
-          const motoId = req.params.motoId;
+          const motoId = req.params.id;
           const moto = await this.getMotoByIdUseCase.execute(motoId);
           res.status(200).json(moto);
       } catch (error:any) {

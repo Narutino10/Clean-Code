@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { createMotoRoutes } from './routes/motoRoutes'; // Assurez-vous que ce chemin est correct
 import { MotoController } from './controllers/MotoController';
 import { TypeORMMotoRepository } from '../infrastructure/repositories/TypeORMMotoRepository';
@@ -18,6 +19,7 @@ AppDataSource.initialize()
 
 // Instancier les dépendances nécessaires
 const app = express();
+app.use(cors()); // Activer CORS pour les requêtes HTTP
 app.use(express.json()); // Middleware pour parser le JSON des requêtes
 
 const motoRepository = new TypeORMMotoRepository();
