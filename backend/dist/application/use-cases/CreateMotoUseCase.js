@@ -28,7 +28,7 @@ class CreateMotoUseCase {
             moto.modele = modele; // Assignez l'objet ModeleMoto trouvé
             moto.kilometrage = data.kilometrage;
             moto.dateDernierEntretien = data.dateDernierEntretien;
-            return yield this.motoRepository.save(moto);
+            return yield this.motoRepository.saveMoto(moto);
         });
     }
 }

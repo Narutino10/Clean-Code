@@ -27,6 +27,6 @@ export class CreateMotoUseCase {
         moto.kilometrage = data.kilometrage;
         moto.dateDernierEntretien = data.dateDernierEntretien;
 
-        return await this.motoRepository.save(moto);
+        return await this.motoRepository.saveMoto(moto);
     }
 }

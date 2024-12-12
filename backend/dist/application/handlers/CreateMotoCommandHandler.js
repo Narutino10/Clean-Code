@@ -30,7 +30,7 @@ class CreateMotoCommandHandler {
             moto.kilometrage = kilometrage;
             moto.dateDernierEntretien = dateDernierEntretien;
             // Sauvegarder la moto dans le repository
-            yield this.motoRepository.save(moto);
+            yield this.motoRepository.saveMoto(moto);
             return moto;
         });
     }

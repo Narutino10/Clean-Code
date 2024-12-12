@@ -30,7 +30,6 @@ require("reflect-metadata");
 const dotenv = __importStar(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 dotenv.config(); // Charger les variables d'environnement
-server_1.default.use((0, cors_1.default)()); // Activer CORS pour les requêtes HTTP
 const data_source_1 = require("./data-source");
 const server_1 = __importDefault(require("./interface/server"));
 const TypeORMMotoRepository_1 = require("./infrastructure/repositories/TypeORMMotoRepository");
@@ -39,18 +38,15 @@ const TypeORMEntretienRepository_1 = require("./infrastructure/repositories/Type
 const TypeORMEventStore_1 = require("./infrastructure/event-store/TypeORMEventStore");
 const MotoController_1 = require("./interface/controllers/MotoController");
 const motoRoutes_1 = __importDefault(require("./interface/routes/motoRoutes"));
+server_1.default.use((0, cors_1.default)()); // Activer CORS pour les requêtes HTTP
 data_source_1.AppDataSource.initialize()
     .then(() => {
     console.log('Connexion à la base de données établie.');
-    // Instancier les repositories
     const motoRepository = new TypeORMMotoRepository_1.TypeORMMotoRepository();
     const modeleMotoRepository = new ModeleMotoRepository_1.ModeleMotoRepository(data_source_1.AppDataSource);
     const entretienRepository = new TypeORMEntretienRepository_1.TypeORMEntretienRepository();
     const eventStore = new TypeORMEventStore_1.TypeORMEventStore();
-    // Instancier le contrôleur avec les dépendances
-    const motoController = new MotoController_1.MotoController(motoRepository, modeleMotoRepository, entretienRepository, eventStore // Ajout de eventStore comme argument
-    );
-    // Créer les routes avec les contrôleurs
+    const motoController = new MotoController_1.MotoController(motoRepository, modeleMotoRepository, entretienRepository, eventStore);
     const motoRoutes = (0, motoRoutes_1.default)(motoController, entretienRepository);
     server_1.default.use('/api/motos', motoRoutes);
     const port = process.env.PORT || 3001;

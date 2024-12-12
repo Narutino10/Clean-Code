@@ -1,8 +1,8 @@
 import 'reflect-metadata'; 
 import * as dotenv from 'dotenv';
 import cors from 'cors';
+
 dotenv.config(); // Charger les variables d'environnement
-app.use(cors()); // Activer CORS pour les requêtes HTTP
 
 import { AppDataSource } from './data-source';
 import app from './interface/server';
@@ -14,25 +14,24 @@ import { TypeORMEventStore } from './infrastructure/event-store/TypeORMEventStor
 import { MotoController } from './interface/controllers/MotoController';
 import createMotoRoutes from './interface/routes/motoRoutes';
 
+app.use(cors()); // Activer CORS pour les requêtes HTTP
+
 AppDataSource.initialize()
   .then(() => {
     console.log('Connexion à la base de données établie.');
 
-    // Instancier les repositories
     const motoRepository = new TypeORMMotoRepository();
     const modeleMotoRepository = new ModeleMotoRepository(AppDataSource);
     const entretienRepository = new TypeORMEntretienRepository();
     const eventStore = new TypeORMEventStore();
 
-    // Instancier le contrôleur avec les dépendances
     const motoController = new MotoController(
       motoRepository,
       modeleMotoRepository,
       entretienRepository,
-      eventStore // Ajout de eventStore comme argument
+      eventStore
     );
 
-    // Créer les routes avec les contrôleurs
     const motoRoutes = createMotoRoutes(motoController, entretienRepository);
     app.use('/api/motos', motoRoutes);
 

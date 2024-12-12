@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlanifierEntretienController = void 0;
 const PlanifierEntretienUseCase_1 = require("../../application/use-cases/PlanifierEntretienUseCase");
-const TypeORMMotoRepository_1 = require("../../application/repositories/TypeORMMotoRepository");
+const TypeORMMotoRepository_1 = require("../../infrastructure/repositories/TypeORMMotoRepository");
 const ModeleMotoRepository_1 = require("../../application/repositories/ModeleMotoRepository");
 const data_source_1 = require("../../data-source");
 const motoRepository = new TypeORMMotoRepository_1.TypeORMMotoRepository();

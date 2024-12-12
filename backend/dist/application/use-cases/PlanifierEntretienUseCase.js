@@ -27,10 +27,7 @@ class PlanifierEntretienUseCase {
             }
             moto.intervalleEntretienKm = modele.entretienIntervalKm;
             moto.intervalleEntretienTemps = modele.entretienIntervalTemps;
-            yield this.motoRepository.update(moto.id, {
-                intervalleEntretienKm: modele.entretienIntervalKm,
-                intervalleEntretienTemps: modele.entretienIntervalTemps,
-            });
+            yield this.motoRepository.updateMoto(moto);
         });
     }
 }

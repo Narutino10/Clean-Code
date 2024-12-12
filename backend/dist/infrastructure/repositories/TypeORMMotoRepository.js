@@ -10,35 +10,50 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TypeORMMotoRepository = void 0;
+const typeorm_1 = require("typeorm");
 const Moto_1 = require("../../domain/entities/Moto");
 const data_source_1 = require("../../data-source");
-class TypeORMMotoRepository {
+class TypeORMMotoRepository extends typeorm_1.Repository {
     constructor() {
-        this.repository = data_source_1.AppDataSource.getRepository(Moto_1.Moto);
+        super(Moto_1.Moto, data_source_1.AppDataSource.manager);
     }
-    save(moto) {
+    saveMoto(moto) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.repository.save(moto);
+            // Appel direct de la méthode save du Repository
+            return yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).save(moto);
         });
     }
-    delete(id) {
+    deleteMoto(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.repository.delete(id);
+            // Appel de la méthode delete et gestion des résultats
+            const result = yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).delete({ id });
+            if (result.affected === 0) {
+                throw new Error(`Aucune moto trouvée avec l'ID ${id}`);
+            }
         });
     }
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.repository.find();
+            return yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).find();
         });
     }
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return (yield this.repository.findOneBy({ id })) || null;
+            return yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).findOne({ where: { id } });
         });
     }
-    update(moto) {
+    updateMoto(moto) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.repository.save(moto);
+            const result = yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).update(moto.id, moto);
+            if (result.affected === 0) {
+                throw new Error(`Aucune mise à jour effectuée pour l'ID ${moto.id}`);
+            }
+            return moto; // Retourne la moto mise à jour
+        });
+    }
+    findOne(options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).findOne(options);
         });
     }
 }

@@ -14,18 +14,15 @@ class InMemoryMotoRepository {
     constructor() {
         this.motos = [];
     }
-    save(moto) {
+    saveMoto(moto) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!moto.id) {
-                moto.id = this.generateId();
-            }
             this.motos.push(moto);
             return moto;
         });
     }
-    delete(id) {
+    deleteMoto(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.motos = this.motos.filter(moto => moto.id !== id);
+            this.motos = this.motos.filter((moto) => moto.id !== id);
         });
     }
     findAll() {
@@ -35,21 +32,23 @@ class InMemoryMotoRepository {
     }
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const moto = this.motos.find(moto => moto.id === id);
-            return moto || null;
+            return this.motos.find((moto) => moto.id === id) || null;
         });
     }
-    update(moto) {
+    updateMoto(moto) {
         return __awaiter(this, void 0, void 0, function* () {
-            const index = this.motos.findIndex(m => m.id === moto.id);
-            if (index === -1)
-                throw new Error('Moto not found');
-            this.motos[index] = moto;
-            return moto;
+            const index = this.motos.findIndex((m) => m.id === moto.id);
+            if (index !== -1) {
+                this.motos[index] = moto;
+                return moto;
+            }
+            throw new Error('Moto non trouvée');
         });
     }
-    generateId() {
-        return Math.random().toString(36).substring(2, 15);
+    findOne(options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.motos.find((moto) => Object.entries(options).every(([key, value]) => moto[key] === value)) || null;
+        });
     }
 }
 exports.InMemoryMotoRepository = InMemoryMotoRepository;

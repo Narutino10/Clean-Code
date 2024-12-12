@@ -26,7 +26,7 @@ export class CreateMotoCommandHandler {
         moto.dateDernierEntretien = dateDernierEntretien;
 
         // Sauvegarder la moto dans le repository
-        await this.motoRepository.save(moto);
+        await this.motoRepository.saveMoto(moto);
 
         return moto;
     }

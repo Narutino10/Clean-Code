@@ -18,13 +18,9 @@ export class PlanifierEntretienUseCase {
             throw new Error('Modèle de moto non trouvé');
         }
 
-        moto.intervalleEntretienKm = modele.entretienIntervalKm;
-        moto.intervalleEntretienTemps = modele.entretienIntervalTemps;
-
-        await this.motoRepository.update(moto.id, {
-          intervalleEntretienKm: modele.entretienIntervalKm,
-          intervalleEntretienTemps: modele.entretienIntervalTemps,
-      });
+    moto.intervalleEntretienKm = modele.entretienIntervalKm;
+    moto.intervalleEntretienTemps = modele.entretienIntervalTemps;
+    await this.motoRepository.updateMoto(moto);
       
     }
 }

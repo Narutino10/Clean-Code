@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { PlanifierEntretienUseCase } from '../../application/use-cases/PlanifierEntretienUseCase';
-import { TypeORMMotoRepository } from '../../application/repositories/TypeORMMotoRepository';
+import { TypeORMMotoRepository } from '../../infrastructure/repositories/TypeORMMotoRepository';
 import { ModeleMotoRepository } from '../../application/repositories/ModeleMotoRepository';
 import { AppDataSource } from '../../data-source';
 

@@ -17,46 +17,43 @@ class TypeORMMotoRepository extends typeorm_1.Repository {
     constructor() {
         super(Moto_1.Moto, data_source_1.AppDataSource.manager);
     }
-    save(moto) {
-        const _super = Object.create(null, {
-            save: { get: () => super.save }
-        });
+    saveMoto(moto) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield _super.save.call(this, moto); // Conversion nécessaire pour le type attendu
+            // Appel direct de la méthode save du Repository
+            return yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).save(moto);
         });
     }
-    delete(id) {
-        const _super = Object.create(null, {
-            delete: { get: () => super.delete }
-        });
+    deleteMoto(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield _super.delete.call(this, { id }); // Suppression basée sur ID
+            // Appel de la méthode delete et gestion des résultats
+            const result = yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).delete({ id });
+            if (result.affected === 0) {
+                throw new Error(`Aucune moto trouvée avec l'ID ${id}`);
+            }
         });
     }
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.find(); // Appel direct de la méthode héritée
+            return yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).find();
         });
     }
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.findOne({ where: { id } }); // Conversion pour le type attendu
+            return yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).findOne({ where: { id } });
         });
     }
-    update(id, partialEntity) {
-        const _super = Object.create(null, {
-            update: { get: () => super.update }
-        });
+    updateMoto(moto) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield _super.update.call(this, id, partialEntity); // Mise à jour partielle
+            const result = yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).update(moto.id, moto);
+            if (result.affected === 0) {
+                throw new Error(`Aucune mise à jour effectuée pour l'ID ${moto.id}`);
+            }
+            return moto; // Retourne la moto mise à jour
         });
     }
-    findOne(criteria) {
-        const _super = Object.create(null, {
-            findOne: { get: () => super.findOne }
-        });
+    findOne(options) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield _super.findOne.call(this, { where: criteria }); // Conversion pour type attendu
+            return yield data_source_1.AppDataSource.getRepository(Moto_1.Moto).findOne(options);
         });
     }
 }

@@ -1,38 +1,40 @@
-import { MotoRepository } from "../../application/repositories/MotoRepository";
-import { Moto } from "../../domain/entities/Moto";
+import { Moto } from '../../domain/entities/Moto';
+import { MotoRepository } from '../../application/repositories/MotoRepository';
+import { FindOneOptions } from 'typeorm';
+
 
 export class InMemoryMotoRepository implements MotoRepository {
-  private motos: Moto[] = [];
+    private motos: Moto[] = [];
 
-  async save(moto: Moto): Promise<Moto> {
-    if (!moto.id) {
-      moto.id = this.generateId();
+    async saveMoto(moto: Moto): Promise<Moto> {
+        this.motos.push(moto);
+        return moto;
     }
-    this.motos.push(moto);
-    return moto;
-  }
 
-  async delete(id: string): Promise<void> {
-    this.motos = this.motos.filter(moto => moto.id !== id);
-  }
+    async deleteMoto(id: string): Promise<void> {
+        this.motos = this.motos.filter((moto) => moto.id !== id);
+    }
 
-  async findAll(): Promise<Moto[]> {
-    return this.motos;
-  }
+    async findAll(): Promise<Moto[]> {
+        return this.motos;
+    }
 
-  async findById(id: string): Promise<Moto | null> {
-    const moto = this.motos.find(moto => moto.id === id);
-    return moto || null;
-  }
+    async findById(id: string): Promise<Moto | null> {
+        return this.motos.find((moto) => moto.id === id) || null;
+    }
 
-  async update(moto: Moto): Promise<Moto> {
-    const index = this.motos.findIndex(m => m.id === moto.id);
-    if (index === -1) throw new Error('Moto not found');
-    this.motos[index] = moto;
-    return moto;
-  }
+    async updateMoto(moto: Moto): Promise<Moto> {
+        const index = this.motos.findIndex((m) => m.id === moto.id);
+        if (index !== -1) {
+            this.motos[index] = moto;
+            return moto;
+        }
+        throw new Error('Moto non trouvée');
+    }
 
-  private generateId(): string {
-    return Math.random().toString(36).substring(2, 15);
-  }
+    async findOne(options: FindOneOptions<Moto>): Promise<Moto | null> {
+        return this.motos.find((moto) =>
+            Object.entries(options).every(([key, value]) => moto[key as keyof Moto] === value)
+        ) || null;
+    }
 }
