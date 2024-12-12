@@ -1,8 +1,11 @@
+import { Moto } from './Moto';
+
 export interface Entretien {
   id: string;
-  date: string; 
+  moto: Moto;
   description: string;
-  piecesChangees: string[];
   coutTotal: number;
-  recommandations: string;
+  piecesChangees: string[];
+  date: string; // ISO string format
+  recommandations?: string;
 }
