@@ -9,10 +9,10 @@ export class ModeleMoto {
   @Column()
   nom!: string;
 
-  @Column()
+  @Column({ type: 'int' }) // Vérifiez que le type correspond à vos besoins
   entretienIntervalKm!: number;
 
-  @Column()
+  @Column({ type: 'int' })
   entretienIntervalTemps!: number;
 
   @OneToMany(() => Moto, (moto) => moto.modele)

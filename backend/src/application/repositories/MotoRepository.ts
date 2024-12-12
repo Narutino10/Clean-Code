@@ -1,3 +1,4 @@
+import { Repository } from 'typeorm';
 import { Moto } from '../../domain/entities/Moto';
 
 export interface MotoRepository {
@@ -6,4 +7,5 @@ export interface MotoRepository {
   findAll(): Promise<Moto[]>;
   findById(id: string): Promise<Moto | null>;
   update(moto: Moto): Promise<Moto>;
+  findOne(criteria: Partial<Moto>): Promise<Moto | null>;
 }

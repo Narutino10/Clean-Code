@@ -1,23 +1,30 @@
 import { MotoRepository } from '../repositories/MotoRepository';
 import { ModeleMotoRepository } from '../repositories/ModeleMotoRepository';
-import { Moto } from '../../domain/entities/Moto';
 
-export class PlanifierEntretiens {
-  constructor(
-    private motoRepository: MotoRepository,
-    private modeleMotoRepository: ModeleMotoRepository
-  ) {}
+export class PlanifierEntretienUseCase {
+    constructor(
+        private motoRepository: MotoRepository,
+        private modeleMotoRepository: ModeleMotoRepository
+    ) {}
 
-  public async execute(motoId: string): Promise<void> {
-    const moto = await this.motoRepository.findById(motoId);
-    if (!moto) throw new Error('Moto non trouvée');
+    public async execute(motoId: string): Promise<void> {
+        const moto = await this.motoRepository.findById(motoId);
+        if (!moto) {
+            throw new Error('Moto non trouvée');
+        }
 
-    const modele = await this.modeleMotoRepository.findByName(moto.modele);
-    if (!modele) throw new Error('Modèle de moto non trouvé');
+        const modele = await this.modeleMotoRepository.findById(moto.modele.id);
+        if (!modele) {
+            throw new Error('Modèle de moto non trouvé');
+        }
 
-    moto.intervalleEntretienKm = modele.intervalleEntretienKm;
-    moto.intervalleEntretienTemps = modele.intervalleEntretienTemps;
+        moto.intervalleEntretienKm = modele.entretienIntervalKm;
+        moto.intervalleEntretienTemps = modele.entretienIntervalTemps;
 
-    await this.motoRepository.update(moto);
-  }
+        await this.motoRepository.update(moto.id, {
+          intervalleEntretienKm: modele.entretienIntervalKm,
+          intervalleEntretienTemps: modele.entretienIntervalTemps,
+      });
+      
+    }
 }

@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { ModeleMoto } from './ModeleMoto'; 
+import { ModeleMoto } from './ModeleMoto';
 import { Entretien } from './Entretien';
 import { Essai } from './Essai';
 import { Incident } from './Incident';
@@ -11,7 +11,7 @@ export class Moto {
   id!: string;
 
   @ManyToOne(() => ModeleMoto, (modele) => modele.motos)
-  modele!: ModeleMoto; 
+  modele!: ModeleMoto;
 
   @Column('int')
   kilometrage!: number;
@@ -31,6 +31,9 @@ export class Moto {
   @OneToMany(() => Panne, (panne) => panne.moto)
   pannes!: Panne[];
 
-  intervalleEntretienKm?: number; // Ajout
-  intervalleEntretienTemps?: number; // Ajout
+  @Column({ type: 'int', nullable: true }) // Ajout : persisté en base
+  intervalleEntretienKm?: number;
+
+  @Column({ type: 'int', nullable: true }) // Ajout : persisté en base
+  intervalleEntretienTemps?: number;
 }

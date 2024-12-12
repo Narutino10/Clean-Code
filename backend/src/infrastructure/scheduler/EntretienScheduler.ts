@@ -1,8 +1,7 @@
-// src/infrastructure/scheduler/EntretienScheduler.ts
-
 import cron from 'node-cron';
 import { MotoRepository } from '../../application/repositories/MotoRepository';
 import { NotificationService } from '../../application/services/NotificationService';
+import { Moto } from '../../domain/entities/Moto';
 
 export class EntretienScheduler {
   constructor(
@@ -16,9 +15,7 @@ export class EntretienScheduler {
       const aujourdHui = new Date();
 
       motos.forEach(async (moto) => {
-        const entretienDu = // Logique pour déterminer si un entretien est dû
-          this.estEntretienDu(moto, aujourdHui);
-        if (entretienDu) {
+        if (this.estEntretienDu(moto, aujourdHui)) {
           await this.notificationService.envoyerRappel(
             moto.id,
             'Votre moto nécessite un entretien'
@@ -29,6 +26,23 @@ export class EntretienScheduler {
   }
 
   private estEntretienDu(moto: Moto, date: Date): boolean {
-    // Logique pour déterminer si un entretien est dû
+    const dernierEntretien = new Date(moto.dateDernierEntretien);
+
+    if (
+      moto.intervalleEntretienKm &&
+      moto.kilometrage >= moto.intervalleEntretienKm
+    ) {
+      return true;
     }
+
+    if (
+      moto.intervalleEntretienTemps &&
+      date.getTime() - dernierEntretien.getTime() >=
+        moto.intervalleEntretienTemps * 24 * 60 * 60 * 1000
+    ) {
+      return true;
+    }
+
+    return false;
+  }
 }
