@@ -7,22 +7,39 @@ import { ModeleMotoRepository } from '../application/repositories/ModeleMotoRepo
 import { TypeORMEventStore } from '../infrastructure/event-store/TypeORMEventStore';
 import { AppDataSource } from '../data-source';
 
+// Initialiser TypeORM (la connexion à la base de données)
+AppDataSource.initialize()
+  .then(() => {
+    console.log('Database connection established');
+  })
+  .catch((error) => {
+    console.error('Database connection failed:', error);
+  });
+
 // Instancier les dépendances nécessaires
 const app = express();
+app.use(express.json()); // Middleware pour parser le JSON des requêtes
+
 const motoRepository = new TypeORMMotoRepository();
 const entretienRepository = new TypeORMEntretienRepository();
-const modeleMotoRepository = new ModeleMotoRepository(AppDataSource); 
-const eventStore = new TypeORMEventStore; 
+const modeleMotoRepository = new ModeleMotoRepository(AppDataSource);
+const eventStore = new TypeORMEventStore();
 const motoController = new MotoController(
   motoRepository,
-  modeleMotoRepository, 
+  modeleMotoRepository,
   entretienRepository,
-  eventStore 
+  eventStore
 );
 
 // Créer les routes
 const motoRoutes = createMotoRoutes(motoController, entretienRepository);
 
+// Ajouter les routes au serveur
 app.use('/api/motos', motoRoutes);
+
+// Configurer le serveur pour écouter sur le port 3000
+app.listen(3000, '0.0.0.0', () => {
+  console.log('Server running on port 3000');
+});
 
 export default app;

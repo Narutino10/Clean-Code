@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { getAllMotos } from '../services/motoService';
 import '../styles/MotoList.css';
-
-interface Moto {
-  id: number;
-  modele: string;
-  kilometrage: number;
-}
+import { Moto } from '../interfaces/Moto'; // Assurez-vous que l'import est correct
 
 const MotoList: React.FC = () => {
-  const [motos, setMotos] = useState<any[]>([]);
+  const [motos, setMotos] = useState<Moto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -19,6 +14,7 @@ const MotoList: React.FC = () => {
         const data = await getAllMotos();
         setMotos(data);
       } catch (err) {
+        console.error(err);
         setError('Erreur lors de la récupération des motos');
       } finally {
         setLoading(false);
@@ -33,13 +29,17 @@ const MotoList: React.FC = () => {
   return (
     <div className="moto-list">
       <h1>Liste des Motos</h1>
-      <ul>
-        {motos.map((moto) => (
-          <li key={moto.id}>
-            {moto.modele} - {moto.kilometrage} km
-          </li>
-        ))}
-      </ul>
+      {motos.length > 0 ? (
+        <ul>
+          {motos.map((moto) => (
+            <li key={moto.id}>
+              Modèle : {moto.modele.nom} - Kilométrage : {moto.kilometrage} km
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Aucune moto trouvée.</p>
+      )}
     </div>
   );
 };

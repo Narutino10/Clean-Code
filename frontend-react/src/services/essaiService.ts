@@ -14,3 +14,8 @@ export const getEssaiById = async (id: string) => {
   const response = await api.get(`/essais/${id}`);
   return response.data;
 };
+
+export const getEssaisByMoto = async (motoId: string) => {
+  const response = await api.get(`/motos/${motoId}/essais`);
+  return response.data;
+};
