@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Moto } from './Moto';
+import { IsNotEmpty, IsPositive } from 'class-validator';
 
 @Entity()
 export class ModeleMoto {
@@ -7,12 +8,15 @@ export class ModeleMoto {
   id!: string;
 
   @Column()
+  @IsNotEmpty()
   nom!: string;
 
-  @Column({ type: 'int' }) // Vérifiez que le type correspond à vos besoins
+  @Column({ type: 'int' })
+  @IsPositive()
   entretienIntervalKm!: number;
 
   @Column({ type: 'int' })
+  @IsPositive()
   entretienIntervalTemps!: number;
 
   @OneToMany(() => Moto, (moto) => moto.modele)

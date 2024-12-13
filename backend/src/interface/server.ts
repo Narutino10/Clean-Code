@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { createMotoRoutes } from './routes/motoRoutes'; // Assurez-vous que ce chemin est correct
+import { createMotoRoutes } from './routes/motoRoutes';
+import createModeleMotoRoutes from './routes/modeleMotoRoutes'; // Assurez-vous que le chemin est correct
 import { MotoController } from './controllers/MotoController';
 import { TypeORMMotoRepository } from '../infrastructure/repositories/TypeORMMotoRepository';
 import { TypeORMEntretienRepository } from '../infrastructure/repositories/TypeORMEntretienRepository';
@@ -8,7 +9,7 @@ import { ModeleMotoRepository } from '../application/repositories/ModeleMotoRepo
 import { TypeORMEventStore } from '../infrastructure/event-store/TypeORMEventStore';
 import { AppDataSource } from '../data-source';
 
-// Initialiser TypeORM (la connexion à la base de données)
+// Initialiser TypeORM (connexion à la base de données)
 AppDataSource.initialize()
   .then(() => {
     console.log('Database connection established');
@@ -26,6 +27,7 @@ const motoRepository = new TypeORMMotoRepository();
 const entretienRepository = new TypeORMEntretienRepository();
 const modeleMotoRepository = new ModeleMotoRepository(AppDataSource);
 const eventStore = new TypeORMEventStore();
+
 const motoController = new MotoController(
   motoRepository,
   modeleMotoRepository,
@@ -35,9 +37,11 @@ const motoController = new MotoController(
 
 // Créer les routes
 const motoRoutes = createMotoRoutes(motoController, entretienRepository);
+const modeleMotoRoutes = createModeleMotoRoutes(modeleMotoRepository); // Ajout de la route des modèles
 
 // Ajouter les routes au serveur
 app.use('/api/motos', motoRoutes);
+app.use('/api/modeles', modeleMotoRoutes); // Ajout de l'endpoint des modèles
 
 // Configurer le serveur pour écouter sur le port 3000
 app.listen(3000, '0.0.0.0', () => {

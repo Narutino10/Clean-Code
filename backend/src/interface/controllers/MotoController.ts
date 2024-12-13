@@ -29,8 +29,8 @@ export class MotoController {
     public async createMoto(req: Request, res: Response): Promise<void> {
         try {
             const data = req.body;
-            const moto = await this.createMotoUseCase.execute(data);
-            res.status(201).json(moto);
+            const newMoto = await this.createMotoUseCase.execute(data);
+            res.status(201).json(newMoto);
         } catch (error: any) {
             res.status(400).json({ error: error.message });
         }

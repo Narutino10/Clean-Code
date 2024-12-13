@@ -30,3 +30,8 @@ export const updateMoto = async (id: string, moto: any) => {
   const response = await api.put(`/api/motos/${id}`, moto);
   return response.data;
 };
+
+export const getAllModeles = async () => {
+  const response = await api.get('/api/modeles');
+  return response.data;
+}
