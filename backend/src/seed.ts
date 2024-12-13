@@ -7,81 +7,123 @@ import { PieceDetachee } from './domain/entities/PieceDetachee';
 import { CommandePiece } from './domain/entities/CommandePiece';
 
 async function seed() {
-    await AppDataSource.initialize();
+    try {
+        await AppDataSource.initialize();
+        console.log('Connexion à la base de données réussie.');
 
-    const motoRepository = AppDataSource.getRepository(Moto);
-    const modeleMotoRepository = AppDataSource.getRepository(ModeleMoto);
-    const conducteurRepository = AppDataSource.getRepository(Conducteur);
-    const entretienRepository = AppDataSource.getRepository(Entretien);
-    const pieceDetacheeRepository = AppDataSource.getRepository(PieceDetachee);
-    const commandePieceRepository = AppDataSource.getRepository(CommandePiece);
+        const motoRepository = AppDataSource.getRepository(Moto);
+        const modeleMotoRepository = AppDataSource.getRepository(ModeleMoto);
+        const conducteurRepository = AppDataSource.getRepository(Conducteur);
+        const entretienRepository = AppDataSource.getRepository(Entretien);
+        const pieceDetacheeRepository = AppDataSource.getRepository(PieceDetachee);
+        const commandePieceRepository = AppDataSource.getRepository(CommandePiece);
 
-    // Ajout des modèles de moto avec les valeurs pour entretienIntervalKm et entretienIntervalTemps
-    const streetTriple = await modeleMotoRepository.save({ 
-        nom: 'Street Triple', 
-        constructeur: 'Triumph', 
-        cylindree: 765,
-        entretienIntervalKm: 10000, // Valeur ajoutée
-        entretienIntervalTemps: 12  // Valeur ajoutée
-    });
+        // Ajout des modèles de moto
+        const streetTriple = modeleMotoRepository.create({
+            nom: 'Street Triple',
+            entretienIntervalKm: 10000,
+            entretienIntervalTemps: 12,
+        });
 
-    const tigerSport = await modeleMotoRepository.save({ 
-        nom: 'Tiger Sport 660', 
-        constructeur: 'Triumph', 
-        cylindree: 660,
-        entretienIntervalKm: 16000, // Valeur ajoutée
-        entretienIntervalTemps: 12  // Valeur ajoutée
-    });
+        const tigerSport = modeleMotoRepository.create({
+            nom: 'Tiger Sport 660',
+            entretienIntervalKm: 16000,
+            entretienIntervalTemps: 12,
+        });
 
-    // Ajout des motos
-    const moto1 = await motoRepository.save({ modele: streetTriple, kilometrage: 5000, dateDernierEntretien: new Date() });
-    const moto2 = await motoRepository.save({ modele: tigerSport, kilometrage: 16000, dateDernierEntretien: new Date() });
+        await modeleMotoRepository.save([streetTriple, tigerSport]);
 
-    // Ajout des conducteurs
-    const conducteur1 = await conducteurRepository.save({ nom: 'John Doe', permis: 'A', experience: 5 });
-    const conducteur2 = await conducteurRepository.save({ nom: 'Jane Smith', permis: 'A', experience: 2 });
+        // Ajout des motos
+        const moto1 = motoRepository.create({
+            modele: streetTriple,
+            kilometrage: 5000,
+            dateDernierEntretien: new Date(),
+        });
 
-    // Ajout des entretiens
-    const entretien1 = await entretienRepository.save({
-        moto: moto1,
-        date: new Date(),
-        description: 'Changement d’huile et filtre',
-        piecesChangees: ['Filtre à huile', 'Huile moteur'],
-        coutTotal: 150,
-        recommandations: 'Vérifier la pression des pneus'
-    });
+        const moto2 = motoRepository.create({
+            modele: tigerSport,
+            kilometrage: 16000,
+            dateDernierEntretien: new Date(),
+        });
 
-    const entretien2 = await entretienRepository.save({
-        moto: moto2,
-        date: new Date(),
-        description: 'Révision des 16000 km',
-        piecesChangees: ['Bougies', 'Filtre à air'],
-        coutTotal: 250,
-        recommandations: 'Prochain entretien dans 5000 km'
-    });
+        await motoRepository.save([moto1, moto2]);
 
-    // Ajout des pièces détachées
-    const piece1 = await pieceDetacheeRepository.save({ nom: 'Filtre à huile', stock: 100 });
-    const piece2 = await pieceDetacheeRepository.save({ nom: 'Bougies', stock: 50 });
+        // Ajout des conducteurs
+        const conducteur1 = conducteurRepository.create({
+            nom: 'John Doe',
+            permis: 'A',
+            experience: 5,
+        });
 
-    // Ajout des commandes de pièces
-    const commande1 = await commandePieceRepository.save({
-        piece: piece1,
-        dateCommande: new Date(),
-        quantite: 20,
-        coutTotal: 200,
-        dateLivraisonEstimee: new Date(new Date().setDate(new Date().getDate() + 7))
-    });
+        const conducteur2 = conducteurRepository.create({
+            nom: 'Jane Smith',
+            permis: 'A',
+            experience: 2,
+        });
 
-    const commande2 = await commandePieceRepository.save({
-        piece: piece2,
-        dateCommande: new Date(),
-        quantite: 10,
-        coutTotal: 100,
-        dateLivraisonEstimee: new Date(new Date().setDate(new Date().getDate() + 10))
-    });
+        await conducteurRepository.save([conducteur1, conducteur2]);
 
-    console.log('Données insérées avec succès');
+        // Ajout des entretiens
+        const entretien1 = entretienRepository.create({
+            moto: moto1,
+            date: new Date(),
+            description: 'Changement d’huile et filtre',
+            piecesChangees: ['Filtre à huile', 'Huile moteur'],
+            coutTotal: 150,
+            recommandations: 'Vérifier la pression des pneus',
+        });
+
+        const entretien2 = entretienRepository.create({
+            moto: moto2,
+            date: new Date(),
+            description: 'Révision des 16000 km',
+            piecesChangees: ['Bougies', 'Filtre à air'],
+            coutTotal: 250,
+            recommandations: 'Prochain entretien dans 5000 km',
+        });
+
+        await entretienRepository.save([entretien1, entretien2]);
+
+        // Ajout des pièces détachées
+        const piece1 = pieceDetacheeRepository.create({
+            nom: 'Filtre à huile',
+            stock: 100,
+            seuilCritique: 10,
+        });
+
+        const piece2 = pieceDetacheeRepository.create({
+            nom: 'Bougies',
+            stock: 50,
+            seuilCritique: 5,
+        });
+
+        await pieceDetacheeRepository.save([piece1, piece2]);
+
+        // Ajout des commandes de pièces
+        const commande1 = commandePieceRepository.create({
+            piece: piece1,
+            dateCommande: new Date(),
+            quantite: 20,
+            coutTotal: 200,
+            dateLivraisonEstimee: new Date(new Date().setDate(new Date().getDate() + 7)),
+        });
+
+        const commande2 = commandePieceRepository.create({
+            piece: piece2,
+            dateCommande: new Date(),
+            quantite: 10,
+            coutTotal: 100,
+            dateLivraisonEstimee: new Date(new Date().setDate(new Date().getDate() + 10)),
+        });
+
+        await commandePieceRepository.save([commande1, commande2]);
+
+        console.log('Données insérées avec succès.');
+    } catch (error) {
+        console.error('Erreur lors de l\'insertion des données :', error);
+    } finally {
+        process.exit();
+    }
 }
 
-seed().catch(error => console.log('Erreur lors de l\'insertion des données :', error));
+seed();
