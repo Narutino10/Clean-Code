@@ -6,6 +6,7 @@ import EditMotoForm from './components/EditMotoForm';
 import HistoriqueEntretiens from './components/HistoriqueEntretiens';
 import PlanifierEntretiens from './components/PlanifierEntretiens';
 import Navbar from './components/Navbar';
+import PieceList from './components/PieceList'; // Import du composant pour les pièces détachées
 import './styles/App.css';
 
 const App: React.FC = () => {
@@ -20,6 +21,7 @@ const App: React.FC = () => {
           <Route path="/edit-moto/:id" element={<EditMotoForm />} />
           <Route path="/entretiens" element={<HistoriqueEntretiens motoId="1" />} />
           <Route path="/planifier-entretiens" element={<PlanifierEntretiens />} />
+          <Route path="/pieces" element={<PieceList />} /> 
         </Routes>
       </div>
     </Router>

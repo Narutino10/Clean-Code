@@ -12,6 +12,12 @@ export class PieceDetachee {
   @Column('decimal')
   prix!: number;
 
+  @Column('int')
+  stock!: number;
+
+  @Column('int')
+  seuilCritique!: number;
+
   @OneToMany(() => CommandePiece, (commande) => commande.piece)
   commandes!: CommandePiece[];
 }

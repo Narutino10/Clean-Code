@@ -1,13 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import { createMotoRoutes } from './routes/motoRoutes';
-import createModeleMotoRoutes from './routes/modeleMotoRoutes'; // Assurez-vous que le chemin est correct
+import createModeleMotoRoutes from './routes/modeleMotoRoutes'; 
 import { MotoController } from './controllers/MotoController';
 import { TypeORMMotoRepository } from '../infrastructure/repositories/TypeORMMotoRepository';
 import { TypeORMEntretienRepository } from '../infrastructure/repositories/TypeORMEntretienRepository';
 import { ModeleMotoRepository } from '../application/repositories/ModeleMotoRepository';
 import { TypeORMEventStore } from '../infrastructure/event-store/TypeORMEventStore';
 import { AppDataSource } from '../data-source';
+import pieceRoutes from './routes/pieceRoutes';
 
 // Initialiser TypeORM (connexion à la base de données)
 AppDataSource.initialize()
@@ -41,7 +42,8 @@ const modeleMotoRoutes = createModeleMotoRoutes(modeleMotoRepository); // Ajout 
 
 // Ajouter les routes au serveur
 app.use('/api/motos', motoRoutes);
-app.use('/api/modeles', modeleMotoRoutes); // Ajout de l'endpoint des modèles
+app.use('/api/modeles', modeleMotoRoutes); 
+app.use('/api/pieces', pieceRoutes);
 
 // Configurer le serveur pour écouter sur le port 3000
 app.listen(3000, '0.0.0.0', () => {

@@ -9,21 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PieceDetacheeRepository = void 0;
-const typeorm_1 = require("typeorm");
-const PieceDetachee_1 = require("../../domain/entities/PieceDetachee");
-class PieceDetacheeRepository extends typeorm_1.Repository {
-    constructor(dataSource) {
-        super(PieceDetachee_1.PieceDetachee, dataSource.manager);
-    }
-    findLowStockPieces() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.find({
-                where: {
-                    stock: (0, typeorm_1.LessThanOrEqual)(10), // Utilisation correcte
-                },
-            });
-        });
-    }
-}
-exports.PieceDetacheeRepository = PieceDetacheeRepository;
+const express_1 = require("express");
+const createModeleMotoRoutes = (modeleMotoRepository) => {
+    const router = (0, express_1.Router)();
+    router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const modeles = yield modeleMotoRepository.findAll();
+            res.status(200).json(modeles);
+        }
+        catch (error) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            res.status(500).json({ error: errorMessage });
+        }
+    }));
+    ;
+    return router;
+};
+exports.default = createModeleMotoRoutes;

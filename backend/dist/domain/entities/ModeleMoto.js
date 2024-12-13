@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ModeleMoto = void 0;
 const typeorm_1 = require("typeorm");
 const Moto_1 = require("./Moto");
+const class_validator_1 = require("class-validator");
 let ModeleMoto = class ModeleMoto {
 };
 exports.ModeleMoto = ModeleMoto;
@@ -21,15 +22,17 @@ __decorate([
 ], ModeleMoto.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], ModeleMoto.prototype, "nom", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'int' }) // Vérifiez que le type correspond à vos besoins
-    ,
+    (0, typeorm_1.Column)({ type: 'int' }),
+    (0, class_validator_1.IsPositive)(),
     __metadata("design:type", Number)
 ], ModeleMoto.prototype, "entretienIntervalKm", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'int' }),
+    (0, class_validator_1.IsPositive)(),
     __metadata("design:type", Number)
 ], ModeleMoto.prototype, "entretienIntervalTemps", void 0);
 __decorate([

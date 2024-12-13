@@ -28,6 +28,14 @@ __decorate([
     __metadata("design:type", Number)
 ], PieceDetachee.prototype, "prix", void 0);
 __decorate([
+    (0, typeorm_1.Column)('int'),
+    __metadata("design:type", Number)
+], PieceDetachee.prototype, "stock", void 0);
+__decorate([
+    (0, typeorm_1.Column)('int'),
+    __metadata("design:type", Number)
+], PieceDetachee.prototype, "seuilCritique", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => CommandePiece_1.CommandePiece, (commande) => commande.piece),
     __metadata("design:type", Array)
 ], PieceDetachee.prototype, "commandes", void 0);

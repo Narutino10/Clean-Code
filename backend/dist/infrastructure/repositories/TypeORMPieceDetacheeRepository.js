@@ -44,7 +44,6 @@ class TypeORMPieceDetacheeRepository extends typeorm_1.Repository {
             if (result.affected === 0) {
                 throw new Error(`Aucune pièce détachée trouvée avec l'ID ${id}`);
             }
-            // Retourner explicitement une promesse vide
             return Promise.resolve();
         });
     }
@@ -57,8 +56,17 @@ class TypeORMPieceDetacheeRepository extends typeorm_1.Repository {
             if (result.affected === 0) {
                 throw new Error(`Aucune mise à jour effectuée pour l'ID ${id}`);
             }
-            // Retourner explicitement une promesse vide
             return Promise.resolve();
+        });
+    }
+    // Ajout de la méthode pour trouver les pièces en stock critique
+    findLowStockPieces() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.find({
+                where: {
+                    stock: (0, typeorm_1.LessThanOrEqual)(10), // Vérification des pièces avec stock ≤ 10
+                },
+            });
         });
     }
 }

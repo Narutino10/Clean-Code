@@ -1,9 +1,16 @@
+import { Repository, DataSource, LessThanOrEqual } from 'typeorm';
 import { PieceDetachee } from '../../domain/entities/PieceDetachee';
 
-export interface PieceDetacheeRepository {
-  findAll(): Promise<PieceDetachee[]>;
-  findById(id: string): Promise<PieceDetachee | null>;
-  savePiece(piece: PieceDetachee): Promise<PieceDetachee>;
-  deletePiece(id: string): Promise<void>;
-  updatePiece(id: string, piece: Partial<PieceDetachee>): Promise<void>;
+export class PieceDetacheeRepository extends Repository<PieceDetachee> {
+    constructor(dataSource: DataSource) {
+        super(PieceDetachee, dataSource.manager);
+    }
+
+    async findLowStockPieces(): Promise<PieceDetachee[]> {
+        return this.find({
+            where: {
+                stock: LessThanOrEqual(10), // Utilisation correcte
+            },
+        });
+    }
 }

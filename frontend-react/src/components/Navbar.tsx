@@ -11,6 +11,8 @@ const Navbar: React.FC = () => {
         <li><Link to="/add-moto">Ajouter Moto</Link></li>
         <li><Link to="/entretiens">Historique Entretiens</Link></li>
         <li><Link to="/planifier-entretiens">Planifier Entretiens</Link></li>
+        <li><Link to="/pieces">Liste des Pièces</Link></li>
+        
       </ul>
     </nav>
   );

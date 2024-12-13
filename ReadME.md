@@ -76,4 +76,3 @@ Le projet est structuré selon les principes de la **Clean Architecture**, ce qu
 - **npm** (version 6 ou supérieure)
 - **Docker** (pour exécuter les conteneurs)
 - **Docker Compose** (version 1.27 ou supérieure)
-

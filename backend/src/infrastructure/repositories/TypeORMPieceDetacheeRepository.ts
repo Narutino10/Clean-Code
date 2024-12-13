@@ -1,4 +1,4 @@
-import { Repository, DeleteResult } from 'typeorm';
+import { Repository, DeleteResult, LessThanOrEqual } from 'typeorm';
 import { PieceDetachee } from '../../domain/entities/PieceDetachee';
 import { PieceDetacheeRepository } from '../../application/repositories/PieceDetacheeRepository';
 import { AppDataSource } from '../../data-source';
@@ -28,7 +28,6 @@ export class TypeORMPieceDetacheeRepository
     if (result.affected === 0) {
       throw new Error(`Aucune pièce détachée trouvée avec l'ID ${id}`);
     }
-    // Retourner explicitement une promesse vide
     return Promise.resolve();
   }
 
@@ -37,7 +36,15 @@ export class TypeORMPieceDetacheeRepository
     if (result.affected === 0) {
       throw new Error(`Aucune mise à jour effectuée pour l'ID ${id}`);
     }
-    // Retourner explicitement une promesse vide
     return Promise.resolve();
+  }
+
+  // Ajout de la méthode pour trouver les pièces en stock critique
+  async findLowStockPieces(): Promise<PieceDetachee[]> {
+    return this.find({
+      where: {
+        stock: LessThanOrEqual(10), // Vérification des pièces avec stock ≤ 10
+      },
+    });
   }
 }

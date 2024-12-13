@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ModeleMotoRepository = void 0;
-// src/application/repositories/ModeleMotoRepository.ts
 const typeorm_1 = require("typeorm");
 const ModeleMoto_1 = require("../../domain/entities/ModeleMoto");
 class ModeleMotoRepository extends typeorm_1.Repository {
@@ -26,6 +25,12 @@ class ModeleMotoRepository extends typeorm_1.Repository {
     findByName(nom) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.findOne({ where: { nom } });
+        });
+    }
+    // Ajout de la méthode findAll
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.find(); // Renvoie tous les modèles
         });
     }
 }
