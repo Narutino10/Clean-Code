@@ -37,4 +37,13 @@ export class InMemoryMotoRepository implements MotoRepository {
             Object.entries(options).every(([key, value]) => moto[key as keyof Moto] === value)
         ) || null;
     }
+
+    async find(options?: Partial<Moto>): Promise<Moto[]> {
+        if (!options) {
+            return this.motos;
+        }
+        return this.motos.filter((moto) =>
+            Object.entries(options).every(([key, value]) => moto[key as keyof Moto] === value)
+        );
+    }
 }

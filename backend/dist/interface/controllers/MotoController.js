@@ -40,7 +40,7 @@ class MotoController {
     getAllMotos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const motos = yield this.getAllMotosUseCase.execute();
+                const motos = yield this.motoRepository.find({ relations: ['modele'] });
                 res.status(200).json(motos);
             }
             catch (error) {
@@ -63,7 +63,7 @@ class MotoController {
     getMotoById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const motoId = req.params.motoId;
+                const motoId = req.params.id;
                 const moto = yield this.getMotoByIdUseCase.execute(motoId);
                 res.status(200).json(moto);
             }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllMotos } from '../services/motoService';
 import '../styles/MotoList.css';
-import { Moto } from '../interfaces/Moto'; // Assurez-vous que l'import est correct
+import { Moto } from '../interfaces/Moto';
 
 const MotoList: React.FC = () => {
   const [motos, setMotos] = useState<Moto[]>([]);
@@ -33,7 +33,7 @@ const MotoList: React.FC = () => {
         <ul>
           {motos.map((moto) => (
             <li key={moto.id}>
-              Modèle : {moto.modele.nom} - Kilométrage : {moto.kilometrage} km
+              Modèle : {moto.modele?.nom || 'Modèle non défini'} - Kilométrage : {moto.kilometrage} km
             </li>
           ))}
         </ul>

@@ -38,12 +38,13 @@ export class MotoController {
 
     public async getAllMotos(req: Request, res: Response): Promise<void> {
         try {
-            const motos = await this.getAllMotosUseCase.execute();
-            res.status(200).json(motos);
+          const motos = await this.motoRepository.find({ relations: ['modele'] });
+          res.status(200).json(motos);
         } catch (error: any) {
-            res.status(400).json({ error: error.message });
+          res.status(400).json({ error: error.message });
         }
-    }
+      }
+      
 
     public async getEntretiensByMotoId(req: Request, res: Response): Promise<void> {
         try {

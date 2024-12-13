@@ -50,5 +50,13 @@ class InMemoryMotoRepository {
             return this.motos.find((moto) => Object.entries(options).every(([key, value]) => moto[key] === value)) || null;
         });
     }
+    find(options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!options) {
+                return this.motos;
+            }
+            return this.motos.filter((moto) => Object.entries(options).every(([key, value]) => moto[key] === value));
+        });
+    }
 }
 exports.InMemoryMotoRepository = InMemoryMotoRepository;
