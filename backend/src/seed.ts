@@ -85,17 +85,20 @@ async function seed() {
         await entretienRepository.save([entretien1, entretien2]);
 
         // Ajout des pièces détachées
-        const piece1 = pieceDetacheeRepository.create({
+        const piece1 = await pieceDetacheeRepository.save({
             nom: 'Filtre à huile',
+            prix: 15.99, // Ajoutez une valeur pour "prix"
             stock: 100,
             seuilCritique: 10,
         });
 
-        const piece2 = pieceDetacheeRepository.create({
+        const piece2 = await pieceDetacheeRepository.save({
             nom: 'Bougies',
+            prix: 5.49, // Ajoutez une valeur pour "prix"
             stock: 50,
             seuilCritique: 5,
         });
+
 
         await pieceDetacheeRepository.save([piece1, piece2]);
 

@@ -10,36 +10,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const TypeORMPieceDetacheeRepository_1 = require("../../infrastructure/repositories/TypeORMPieceDetacheeRepository"); // Assurez-vous que le chemin est correct
+const PieceDetacheeRepository_1 = require("../../application/repositories/PieceDetacheeRepository");
+const data_source_1 = require("../../data-source");
 const pieceRoutes = (0, express_1.Router)();
-const repository = new TypeORMPieceDetacheeRepository_1.TypeORMPieceDetacheeRepository(); // On utilise la classe concrète TypeORM
+const repository = new PieceDetacheeRepository_1.PieceDetacheeRepository(data_source_1.AppDataSource);
 pieceRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const pieces = yield repository.findAll();
+        const pieces = yield repository.find();
         res.json(pieces);
     }
     catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Erreur lors de la récupération des pièces' });
     }
 }));
 pieceRoutes.get('/low-stock', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const lowStockPieces = yield repository.findLowStockPieces(); // Utilisation correcte de la méthode
+        const lowStockPieces = yield repository.findLowStockPieces();
         res.json(lowStockPieces);
     }
     catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}));
-pieceRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { nom, stock, seuilCritique } = req.body;
-        const piece = repository.create({ nom, stock, seuilCritique });
-        yield repository.savePiece(piece);
-        res.status(201).json(piece);
-    }
-    catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Erreur lors de la récupération des pièces en stock critique' });
     }
 }));
 exports.default = pieceRoutes;

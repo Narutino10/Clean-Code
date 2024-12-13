@@ -10,7 +10,12 @@ export const getLowStockPieces = async () => {
   return response.data;
 };
 
-export const createPiece = async (data: { nom: string; stock: number; seuilCritique: number }) => {
+export const createPiece = async (data: {
+  nom: string;
+  prix: number;
+  stock: number;
+  seuilCritique: number;
+}) => {
   const response = await api.post('/api/pieces', data);
   return response.data;
 };
