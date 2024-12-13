@@ -8,6 +8,7 @@ import PlanifierEntretiens from './components/PlanifierEntretiens';
 import Navbar from './components/Navbar';
 import PieceList from './components/PieceList';
 import AddPieceForm from './components/AddPieceForm';
+import EntretienList from './components/EntretienList';
 import './styles/App.css';
 
 const App: React.FC = () => {
@@ -24,6 +25,7 @@ const App: React.FC = () => {
           <Route path="/planifier-entretiens" element={<PlanifierEntretiens />} />
           <Route path="/pieces" element={<PieceList />} /> 
           <Route path="/add-piece" element={<AddPieceForm />} /> 
+          <Route path="/entretiens" element={<EntretienList />} />
         </Routes>
       </div>
     </Router>

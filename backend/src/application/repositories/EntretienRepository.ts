@@ -1,4 +1,3 @@
-import { get } from "http";
 import { Entretien } from "../../domain/entities/Entretien";
 
 export interface EntretienRepository {
@@ -6,4 +5,5 @@ export interface EntretienRepository {
     findById(id: string): Promise<Entretien | null>;
     findAll(): Promise<Entretien[]>;
     getEntretiensByMotoId(motoId: string): Promise<Entretien[]>;
+    create(entretien: Partial<Entretien>): Entretien;
 }

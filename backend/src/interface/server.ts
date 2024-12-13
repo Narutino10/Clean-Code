@@ -9,6 +9,8 @@ import { ModeleMotoRepository } from '../application/repositories/ModeleMotoRepo
 import { TypeORMEventStore } from '../infrastructure/event-store/TypeORMEventStore';
 import { AppDataSource } from '../data-source';
 import pieceRoutes from './routes/pieceRoutes';
+import entretienRoutes from './routes/entretienRoutes';
+
 
 // Initialiser TypeORM (connexion à la base de données)
 AppDataSource.initialize()
@@ -44,6 +46,8 @@ const modeleMotoRoutes = createModeleMotoRoutes(modeleMotoRepository); // Ajout 
 app.use('/api/motos', motoRoutes);
 app.use('/api/modeles', modeleMotoRoutes); 
 app.use('/api/pieces', pieceRoutes);
+app.use('/api/entretiens', entretienRoutes);
+
 
 // Configurer le serveur pour écouter sur le port 3000
 app.listen(3000, '0.0.0.0', () => {

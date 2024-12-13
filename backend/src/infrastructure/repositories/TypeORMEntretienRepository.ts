@@ -25,4 +25,8 @@ export class TypeORMEntretienRepository implements EntretienRepository {
     async getEntretiensByMotoId(motoId: string): Promise<Entretien[]> {
         return await this.repository.find({ where: { moto: { id: motoId } } });
     }
+
+    create(entretien: Partial<Entretien>): Entretien { // Implémentation de la méthode create
+        return this.repository.create(entretien);
+    }
 }
