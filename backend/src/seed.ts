@@ -33,17 +33,21 @@ async function seed() {
 
         await modeleMotoRepository.save([streetTriple, tigerSport]);
 
-        // Ajout des motos
+        // Ajout des motos avec les nouvelles propriétés requises
         const moto1 = motoRepository.create({
+            vin: 'VIN1234567890',
             modele: streetTriple,
             kilometrage: 5000,
-            dateDernierEntretien: new Date(),
+            intervalleEntretienKm: streetTriple.entretienIntervalKm,
+            intervalleEntretienTemps: streetTriple.entretienIntervalTemps,
         });
 
         const moto2 = motoRepository.create({
+            vin: 'VIN0987654321',
             modele: tigerSport,
             kilometrage: 16000,
-            dateDernierEntretien: new Date(),
+            intervalleEntretienKm: tigerSport.entretienIntervalKm,
+            intervalleEntretienTemps: tigerSport.entretienIntervalTemps,
         });
 
         await motoRepository.save([moto1, moto2]);
@@ -85,20 +89,19 @@ async function seed() {
         await entretienRepository.save([entretien1, entretien2]);
 
         // Ajout des pièces détachées
-        const piece1 = await pieceDetacheeRepository.save({
+        const piece1 = pieceDetacheeRepository.create({
             nom: 'Filtre à huile',
-            prix: 15.99, // Ajoutez une valeur pour "prix"
+            prix: 15.99,
             stock: 100,
             seuilCritique: 10,
         });
 
-        const piece2 = await pieceDetacheeRepository.save({
+        const piece2 = pieceDetacheeRepository.create({
             nom: 'Bougies',
-            prix: 5.49, // Ajoutez une valeur pour "prix"
+            prix: 5.49,
             stock: 50,
             seuilCritique: 5,
         });
-
 
         await pieceDetacheeRepository.save([piece1, piece2]);
 
@@ -123,7 +126,7 @@ async function seed() {
 
         console.log('Données insérées avec succès.');
     } catch (error) {
-        console.error('Erreur lors de l\'insertion des données :', error);
+        console.error("Erreur lors de l'insertion des données :", error);
     } finally {
         process.exit();
     }

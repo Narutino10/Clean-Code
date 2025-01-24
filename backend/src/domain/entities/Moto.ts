@@ -20,6 +20,9 @@ export class Moto {
   @ManyToOne(() => ModeleMoto, (modeleMoto) => modeleMoto.motos)
   modele!: ModeleMoto;
 
+  @Column({ type: 'int' })
+  kilometrage!: number;
+
   @Column({ type: 'int', nullable: true })
   intervalleEntretienKm?: number;
 
