@@ -10,6 +10,16 @@ import { Panne } from './domain/entities/Panne';
 import { PieceDetachee } from './domain/entities/PieceDetachee';
 import { CommandePiece } from './domain/entities/CommandePiece';
 import { EventEntity } from './infrastructure/entities/EventEntity';
+import { Client } from './domain/entities/Client';
+import { Company } from './domain/entities/Company';
+import { CompanyMotorcycle } from './domain/entities/CompanyMotorcycle';
+import { Concession } from './domain/entities/Concession';
+import { Maintenance } from './domain/entities/Maintenance';
+import { Repair } from './domain/entities/Repair';
+import { RepairPart } from './domain/entities/RepairPart';
+import { User } from './domain/entities/User';
+import { Warranty } from './domain/entities/Warranty';
+import { WarrantyPart } from './domain/entities/WarrantyPart';
 
 export const AppDataSource = new DataSource({
   type: 'postgres', 
@@ -20,7 +30,28 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME || 'triumph_db',
   synchronize: true,
   logging: false,
-  entities: [Moto, ModeleMoto, Entretien, Essai, Incident, Panne, PieceDetachee, CommandePiece, EventEntity, Conducteur], // Include all entities
+  entities: [
+    Moto, 
+    ModeleMoto, 
+    Entretien,
+    Essai,
+    Incident, 
+    Panne, 
+    PieceDetachee, 
+    CommandePiece, 
+    EventEntity, 
+    Conducteur, 
+    Client, 
+    Company, 
+    CompanyMotorcycle,
+    Concession,
+    Maintenance,
+    Repair,
+    RepairPart,
+    User,
+    Warranty,
+    WarrantyPart,
+  ], 
   migrations: ['./migrations/*.ts'],
   subscribers: [],
 });
