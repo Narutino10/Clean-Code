@@ -1,39 +1,30 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { ModeleMoto } from './ModeleMoto';
-import { Entretien } from './Entretien';
-import { Essai } from './Essai';
+import { Concession } from './Concession';
 import { Incident } from './Incident';
-import { Panne } from './Panne';
+import { Warranty } from './Warranty';
+import { Maintenance } from './Maintenance';
+import { CompanyMotorcycle } from './CompanyMotorcycle';
 
 @Entity()
 export class Moto {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne(() => ModeleMoto, (modele) => modele.motos)
-  modele!: ModeleMoto;
+  @Column()
+  vin!: string; // Numéro de série
 
-  @Column('int')
-  kilometrage!: number;
-
-  @Column({ type: 'date' })
-  dateDernierEntretien!: Date;
-
-  @OneToMany(() => Entretien, (entretien) => entretien.moto)
-  entretiens!: Entretien[];
-
-  @OneToMany(() => Essai, (essai) => essai.moto)
-  essais!: Essai[];
+  @ManyToOne(() => Concession, (concession) => concession.motos)
+  concession!: Concession;
 
   @OneToMany(() => Incident, (incident) => incident.moto)
   incidents!: Incident[];
 
-  @OneToMany(() => Panne, (panne) => panne.moto)
-  pannes!: Panne[];
+  @OneToMany(() => Warranty, (warranty) => warranty.moto)
+  warranties!: Warranty[];
 
-  @Column({ type: 'int', nullable: true }) // Ajout : persisté en base
-  intervalleEntretienKm?: number;
+  @OneToMany(() => Maintenance, (maintenance) => maintenance.moto)
+  maintenances!: Maintenance[];
 
-  @Column({ type: 'int', nullable: true }) // Ajout : persisté en base
-  intervalleEntretienTemps?: number;
+  @OneToMany(() => CompanyMotorcycle, (companyMotorcycle) => companyMotorcycle.motorcycle)
+  companyMotorcycles!: CompanyMotorcycle[];
 }

@@ -1,21 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Conducteur } from './Conducteur';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Moto } from './Moto';
+import { Repair } from './Repair';
 
 @Entity()
 export class Incident {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne(() => Conducteur, (conducteur) => conducteur.incidents)
-  conducteur!: Conducteur;
-
   @ManyToOne(() => Moto, (moto) => moto.incidents)
   moto!: Moto;
 
-  @Column({ type: 'date' })
-  date!: Date;
-
-  @Column()
-  description!: string;
+  @OneToMany(() => Repair, (repair) => repair.incident)
+  repairs!: Repair[];
 }
