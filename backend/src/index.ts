@@ -13,6 +13,8 @@ import { TypeORMEntretienRepository } from './infrastructure/repositories/TypeOR
 import { TypeORMEventStore } from './infrastructure/event-store/TypeORMEventStore';
 import { MotoController } from './interface/controllers/MotoController';
 import createMotoRoutes from './interface/routes/motoRoutes';
+import { TypeORMConcessionRepository } from './infrastructure/repositories/TypeORMConcessionRepository';
+import { ConcessionRepository } from './application/repositories/ConcessionRepository';
 
 app.use(cors()); // Activer CORS pour les requêtes HTTP
 
@@ -24,12 +26,15 @@ AppDataSource.initialize()
     const modeleMotoRepository = new ModeleMotoRepository(AppDataSource);
     const entretienRepository = new TypeORMEntretienRepository();
     const eventStore = new TypeORMEventStore();
+    const concessionRepository: ConcessionRepository = new TypeORMConcessionRepository();
+    
 
     const motoController = new MotoController(
       motoRepository,
       modeleMotoRepository,
       entretienRepository,
-      eventStore
+      eventStore, 
+      concessionRepository
     );
 
     const motoRoutes = createMotoRoutes(motoController, entretienRepository);
