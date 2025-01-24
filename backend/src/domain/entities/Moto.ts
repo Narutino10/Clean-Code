@@ -6,6 +6,10 @@ import { Maintenance } from './Maintenance';
 import { CompanyMotorcycle } from './CompanyMotorcycle';
 import { ModeleMoto } from './ModeleMoto';
 
+import { Panne } from './Panne';
+import { Essai } from './Essai';
+import { Entretien } from './Entretien';
+
 @Entity()
 export class Moto {
   @PrimaryGeneratedColumn('uuid')
@@ -40,4 +44,13 @@ export class Moto {
 
   @OneToMany(() => CompanyMotorcycle, (companyMotorcycle) => companyMotorcycle.motorcycle)
   companyMotorcycles!: CompanyMotorcycle[];
+
+  @OneToMany(() => Panne, (panne) => panne.moto)
+  pannes!: Panne[];
+
+  @OneToMany(() => Essai, (essai) => essai.moto)
+  essais!: Essai[];
+
+  @OneToMany(() => Entretien, (entretien) => entretien.moto)
+  entretiens!: Entretien[];
 }

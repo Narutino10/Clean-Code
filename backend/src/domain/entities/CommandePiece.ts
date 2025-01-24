@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { PieceDetachee } from './PieceDetachee';
 
+
 @Entity()
 export class CommandePiece {
   @PrimaryGeneratedColumn('uuid')
@@ -9,15 +10,15 @@ export class CommandePiece {
   @ManyToOne(() => PieceDetachee, (piece) => piece.commandes)
   piece!: PieceDetachee;
 
-  @Column({ type: 'date' })
+  @Column()
   dateCommande!: Date;
 
   @Column()
   quantite!: number;
 
-  @Column('decimal')
+  @Column()
   coutTotal!: number;
 
-  @Column({ type: 'date' })
+  @Column()
   dateLivraisonEstimee!: Date;
 }

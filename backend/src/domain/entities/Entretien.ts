@@ -6,21 +6,21 @@ export class Entretien {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne(() => Moto, (moto) => moto.entretiens, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Moto, (moto) => moto.entretiens)
   moto!: Moto;
+
+  @Column()
+  date!: Date;
 
   @Column()
   description!: string;
 
-  @Column('decimal', { precision: 10, scale: 2 }) // Exemple : pour les valeurs monétaires
-  coutTotal!: number;
-
-  @Column('simple-array') // Stocke une liste sous forme de chaîne séparée par des virgules
+  @Column("simple-array")
   piecesChangees!: string[];
 
-  @Column({ type: 'date' })
-  date!: Date;
+  @Column()
+  coutTotal!: number;
 
-  @Column({ nullable: true }) // Ajout pour que cette colonne soit optionnelle
-  recommandations?: string;
+  @Column()
+  recommandations!: string;
 }

@@ -1,6 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { RepairPart } from './RepairPart';
 import { WarrantyPart } from './WarrantyPart';
+import { CommandePiece } from './CommandePiece';
+
 
 @Entity()
 export class PieceDetachee {
@@ -24,4 +26,8 @@ export class PieceDetachee {
 
   @OneToMany(() => WarrantyPart, (warrantyPart) => warrantyPart.part)
   warrantyParts!: WarrantyPart[];
+
+  @OneToMany(() => CommandePiece, (commandePiece) => commandePiece.piece)
+  commandes!: CommandePiece[];
+  
 }
