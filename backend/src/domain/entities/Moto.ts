@@ -4,6 +4,7 @@ import { Incident } from './Incident';
 import { Warranty } from './Warranty';
 import { Maintenance } from './Maintenance';
 import { CompanyMotorcycle } from './CompanyMotorcycle';
+import { ModeleMoto } from './ModeleMoto';
 
 @Entity()
 export class Moto {
@@ -11,10 +12,19 @@ export class Moto {
   id!: string;
 
   @Column()
-  vin!: string; // Numéro de série
+  vin!: string;
 
   @ManyToOne(() => Concession, (concession) => concession.motos)
   concession!: Concession;
+
+  @ManyToOne(() => ModeleMoto, (modeleMoto) => modeleMoto.motos)
+  modele!: ModeleMoto;
+
+  @Column({ type: 'int', nullable: true })
+  intervalleEntretienKm?: number;
+
+  @Column({ type: 'int', nullable: true })
+  intervalleEntretienTemps?: number;
 
   @OneToMany(() => Incident, (incident) => incident.moto)
   incidents!: Incident[];
