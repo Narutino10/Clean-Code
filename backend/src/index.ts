@@ -26,7 +26,7 @@ AppDataSource.initialize()
     const modeleMotoRepository = new ModeleMotoRepository(AppDataSource);
     const entretienRepository = new TypeORMEntretienRepository();
     const eventStore = new TypeORMEventStore();
-    const concessionRepository: ConcessionRepository = new TypeORMConcessionRepository();
+    const concessionRepository = new TypeORMConcessionRepository();
     
 
     const motoController = new MotoController(
