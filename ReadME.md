@@ -2,8 +2,10 @@
 
 Bienvenue dans le projet **Gestion des Motos Triumph**. Cette application vise à faciliter la gestion des entretiens, des pièces détachées et du suivi des essais pour les motos de la marque Triumph. Elle est développée en respectant les principes de la **Clean Architecture** et du **Clean Code**.
 
-code pour lancer la database avec le docker :
+**Commande pour lancer la base de données dans le terminal**
+```bash
 docker exec -it clean-code-db-1 psql -U postgres -d triumph_db
+```
 
 ## Table des Matières
 
