@@ -88,17 +88,17 @@ async function seed() {
 
         await entretienRepository.save([entretien1, entretien2]);
 
-        // Ajout des pièces détachées
+        // Ajout des pièces détachées avec les valeurs requises
         const piece1 = pieceDetacheeRepository.create({
             nom: 'Filtre à huile',
-            prix: 15.99,
+            prix: 15.99,  // Assurez-vous que cette valeur est bien présente
             stock: 100,
             seuilCritique: 10,
         });
 
         const piece2 = pieceDetacheeRepository.create({
             nom: 'Bougies',
-            prix: 5.49,
+            prix: 5.49,  // Assurez-vous que cette valeur est bien présente
             stock: 50,
             seuilCritique: 5,
         });
@@ -128,6 +128,7 @@ async function seed() {
     } catch (error) {
         console.error("Erreur lors de l'insertion des données :", error);
     } finally {
+        await AppDataSource.destroy();
         process.exit();
     }
 }

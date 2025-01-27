@@ -1,6 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Moto } from './Moto';
-import { WarrantyPart } from './WarrantyPart';
 
 @Entity()
 export class Warranty {
@@ -13,12 +12,9 @@ export class Warranty {
   @Column()
   description!: string;
 
-  @Column('date')
+  @Column({ type: 'date' })
   dateDebut!: Date;
 
-  @Column('date')
+  @Column({ type: 'date' })
   dateFin!: Date;
-
-  @OneToMany(() => WarrantyPart, (warrantyPart) => warrantyPart.warranty)
-  warrantyParts!: WarrantyPart[];
 }

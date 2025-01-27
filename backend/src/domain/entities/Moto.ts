@@ -9,6 +9,7 @@ import { ModeleMoto } from './ModeleMoto';
 import { Panne } from './Panne';
 import { Essai } from './Essai';
 import { Entretien } from './Entretien';
+import { Repair } from './Repair';
 
 @Entity()
 export class Moto {
@@ -56,4 +57,7 @@ export class Moto {
 
   @OneToMany(() => Entretien, (entretien) => entretien.moto)
   entretiens!: Entretien[];
+
+  @OneToMany(() => Repair, (repair) => repair.moto)
+  repairs!: Repair[];
 }

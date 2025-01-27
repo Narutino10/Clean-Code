@@ -11,5 +11,5 @@ export class RepairPart {
   repair!: Repair;
 
   @ManyToOne(() => PieceDetachee, (piece) => piece.repairParts)
-  part!: PieceDetachee;
+  piece!: PieceDetachee;
 }

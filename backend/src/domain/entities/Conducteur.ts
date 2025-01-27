@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Incident } from './Incident';
+import { Essai } from './Essai';
 
 @Entity()
 export class Conducteur {
@@ -15,6 +15,6 @@ export class Conducteur {
   @Column()
   experience!: number;
 
-  @OneToMany(() => Incident, (incident) => incident.conducteur)
-  incidents!: Incident[];
+  @OneToMany(() => Essai, (essai) => essai.conducteur)
+  essais!: Essai[];
 }

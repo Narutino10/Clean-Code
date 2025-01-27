@@ -1,8 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { CommandePiece } from './CommandePiece';
 import { RepairPart } from './RepairPart';
 import { WarrantyPart } from './WarrantyPart';
-import { CommandePiece } from './CommandePiece';
-
 
 @Entity()
 export class PieceDetachee {
@@ -12,22 +11,23 @@ export class PieceDetachee {
   @Column()
   nom!: string;
 
-  @Column('decimal')
+  @Column()
   prix!: number;
 
-  @Column('int')
+  @Column()
   stock!: number;
 
-  @Column('int')
+  @Column()
   seuilCritique!: number;
 
-  @OneToMany(() => RepairPart, (repairPart) => repairPart.part)
+  @OneToMany(() => RepairPart, (repairPart) => repairPart.piece)
   repairParts!: RepairPart[];
 
-  @OneToMany(() => WarrantyPart, (warrantyPart) => warrantyPart.part)
+  @OneToMany(() => WarrantyPart, (warrantyPart) => warrantyPart.piece)
   warrantyParts!: WarrantyPart[];
 
-  @OneToMany(() => CommandePiece, (commandePiece) => commandePiece.piece)
+  @OneToMany(() => CommandePiece, (commande) => commande.piece)
   commandes!: CommandePiece[];
+
   
 }
