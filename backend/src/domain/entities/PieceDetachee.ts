@@ -11,8 +11,9 @@ export class PieceDetachee {
   @Column()
   nom!: string;
 
-  @Column()
-  prix!: number;
+  @Column({ type: 'decimal', nullable: false, default: 0.0 })
+prix!: number;
+
 
   @Column()
   stock!: number;
