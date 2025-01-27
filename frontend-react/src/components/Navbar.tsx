@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/Navbar.css';  
+import '../styles/Navbar.css';
 
 const Navbar: React.FC = () => {
   return (
@@ -13,7 +13,9 @@ const Navbar: React.FC = () => {
         <li><Link to="/planifier-entretiens">Planifier Entretiens</Link></li>
         <li><Link to="/pieces">Liste des Pièces</Link></li>
         <li><Link to="/add-piece">Ajouter Pièce</Link></li>
-        <li><Link to="/entretiens">Liste des Entretiens</Link></li>
+        <li><Link to="/dashboard">Dashboard</Link></li>
+        <li><Link to="/search">Recherche</Link></li>
+        <li><Link to="/login">Connexion</Link></li>
       </ul>
     </nav>
   );
