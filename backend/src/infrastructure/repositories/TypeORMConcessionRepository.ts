@@ -3,7 +3,7 @@ import { AppDataSource } from '../../data-source';
 import { Concession } from '../../domain/entities/Concession';
 import { ConcessionRepository } from '../../application/repositories/ConcessionRepository';
 
-export class TypeORMConcessionRepository {
+export class TypeORMConcessionRepository implements ConcessionRepository {
     private repository: Repository<Concession>;
 
     constructor() {

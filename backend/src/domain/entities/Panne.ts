@@ -14,4 +14,11 @@ export class Panne {
 
   @Column()
   date!: Date;
+
+  // Ajout des colonnes manquantes
+  @Column({ default: false })
+  estSousGarantie!: boolean;
+
+  @Column({ nullable: true })
+  actionCorrective!: string;
 }

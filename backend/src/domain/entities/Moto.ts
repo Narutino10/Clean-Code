@@ -33,6 +33,9 @@ export class Moto {
   @Column({ type: 'int', nullable: true })
   intervalleEntretienTemps?: number;
 
+  @Column({ type: 'date', nullable: true })
+  dateDernierEntretien?: Date;
+
   @OneToMany(() => Incident, (incident) => incident.moto)
   incidents!: Incident[];
 

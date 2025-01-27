@@ -22,8 +22,9 @@ export class EnregistrerPanne {
     panne.moto = moto;
     panne.date = data.date;
     panne.description = data.description;
-    panne.estSousGarantie = data.estSousGarantie;
-    panne.actionCorrective = data.actionCorrective;
+    panne.estSousGarantie = data.estSousGarantie!;
+    panne.actionCorrective = data.actionCorrective!;
+    
 
     await this.panneRepository.save(panne);
   }

@@ -26,6 +26,11 @@ export class EntretienScheduler {
   }
 
   private estEntretienDu(moto: Moto, date: Date): boolean {
+    // Vérification si la date d'entretien existe
+    if (!moto.dateDernierEntretien) {
+      return false;  // Éviter l'erreur si la date est undefined
+    }
+
     const dernierEntretien = new Date(moto.dateDernierEntretien);
 
     if (

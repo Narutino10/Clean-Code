@@ -10,9 +10,7 @@ import { TypeORMEventStore } from '../infrastructure/event-store/TypeORMEventSto
 import { AppDataSource } from '../data-source';
 import pieceRoutes from './routes/pieceRoutes';
 import entretienRoutes from './routes/entretienRoutes';
-// import { TypeORMConcessionRepository } from '../infrastructure/repositories/TypeORMConcessionRepository';
-import { ConcessionRepository } from '../application/repositories/ConcessionRepository';
-
+import { TypeORMConcessionRepository } from '../infrastructure/repositories/TypeORMConcessionRepository';
 
 // Initialiser TypeORM (connexion à la base de données)
 AppDataSource.initialize()
@@ -32,8 +30,7 @@ const motoRepository = new TypeORMMotoRepository();
 const entretienRepository = new TypeORMEntretienRepository();
 const modeleMotoRepository = new ModeleMotoRepository(AppDataSource);
 const eventStore = new TypeORMEventStore();
-// const ConcessionRepository = new TypeORMConcessionRepository(); 
-const concessionRepository = new ConcessionRepository(AppDataSource);
+const concessionRepository = new TypeORMConcessionRepository();
 
 const motoController = new MotoController(
   motoRepository,

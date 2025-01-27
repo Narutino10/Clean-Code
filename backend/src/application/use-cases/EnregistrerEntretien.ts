@@ -34,7 +34,7 @@ export class EnregistrerEntretien {
         entretien.description = description;
         entretien.piecesChangees = piecesChangees;
         entretien.coutTotal = coutTotal;
-        entretien.recommandations = recommandations;
+        entretien.recommandations = recommandations ?? '';
 
         // Sauvegarder l'entretien
         await this.entretienRepository.save(entretien);
