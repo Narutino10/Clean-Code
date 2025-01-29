@@ -1,27 +1,56 @@
-# Utiliser l'image Node.js pour la construction
-FROM node:16-alpine as build
+# # Utiliser l'image officielle de Node.js
+# FROM node:lts-alpine
+
+# # Définir le répertoire de travail
+# WORKDIR /app
+
+# # Copier les fichiers package.json et package-lock.json
+# COPY package*.json ./
+
+# # Installer les dépendances
+# RUN npm install --legacy-peer-deps
+
+# # Copier tout le projet
+# COPY . .
+
+# # Exposer le port 8080
+# EXPOSE 8080
+
+# # Lancer l'application React en mode développement
+# CMD ["npm", "start"]
+
+
+
+# Étape 1 : Construction de l'application React
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copier package.json et package-lock.json pour l'installation des dépendances
+# Copier package.json et package-lock.json AVANT d'installer les dépendances
 COPY package*.json ./
 
-# Installer les dépendances
+# Installation des dépendances
 RUN npm install --legacy-peer-deps
 
 # Copier le reste de l'application
 COPY . .
 
-# Construire l'application React
+# Build de l'application React
 RUN npm run build
 
-# Utiliser l'image Nginx pour servir l'application construite
-FROM nginx:stable-alpine
+# Étape 2 : Serveur Web pour héberger l'application React
+FROM node:18-alpine
 
-# Copier les fichiers de build vers le dossier de service Nginx
-COPY --from=build /app/build /usr/share/nginx/html
+WORKDIR /app
 
-# Exposer le port 80 pour le conteneur
-EXPOSE 80
+# Installer un serveur léger
+RUN npm install -g serve
 
-CMD ["nginx", "-g", "daemon off;"]
+# Copier les fichiers de build
+COPY --from=build /app/build /app/build
+
+# Exposer le port
+EXPOSE 8080
+
+# Lancer l'application
+CMD ["serve", "-s", "build", "-l", "8080"]
