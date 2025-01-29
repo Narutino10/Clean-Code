@@ -23,9 +23,9 @@ services:
     build:
       context: ./frontend-react
       dockerfile: Dockerfile
-    volumes:
-      - ./frontend-react:/app
-      - /app/node_modules
+    # volumes:
+    #   - ./frontend-react:/app
+    #   - /app/node_modules
     ports:
       - '8080:80'
 
