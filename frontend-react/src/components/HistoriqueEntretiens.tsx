@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getEntretiens } from '../services/entretienService';
 import '../styles/HistoriqueEntretiens.css';
-import { validate as isUuid } from 'uuid'; // Importer la validation UUID
+import { validate as isUuid } from 'uuid';
 
 const HistoriqueEntretiens: React.FC<{ motoId: string }> = ({ motoId }) => {
   const [entretiens, setEntretiens] = useState<any[]>([]);
