@@ -1,68 +1,17 @@
-import { Router } from 'express';
-import { EntretienRepository } from '../../application/repositories/EntretienRepository';
-import { TypeORMEntretienRepository } from '../../infrastructure/repositories/TypeORMEntretienRepository';
-import { MotoRepository } from '../../application/repositories/MotoRepository';
-import { TypeORMMotoRepository } from '../../infrastructure/repositories/TypeORMMotoRepository';
+import express from 'express';
+import { EntretienController } from '../controllers/EntretienController';
 
-const entretienRoutes = Router();
-const entretienRepository: EntretienRepository = new TypeORMEntretienRepository();
-const motoRepository: MotoRepository = new TypeORMMotoRepository();
+const router = express.Router();
+const entretienController = new EntretienController();
 
-// Récupérer tous les entretiens
-entretienRoutes.get('/', async (req, res) => {
-  try {
-    const entretiens = await entretienRepository.findAll();
-    res.status(200).json(entretiens);
-  } catch (error) {
-    console.error("Erreur lors de la récupération des entretiens :", error);
-    res.status(500).json({ message: "Erreur serveur lors de la récupération des entretiens" });
-  }
-});
+// Route pour récupérer tous les entretiens
+router.get('/api/entretiens', (req, res) => entretienController.getAllEntretiens(req, res));
 
-// Récupérer les entretiens d'une moto spécifique
-entretienRoutes.get('/moto/:motoId', async (req, res) => {
-  const { motoId } = req.params;
+// Route pour ajouter un entretien
+router.post('/api/entretiens', (req, res) => entretienController.createEntretien(req, res));
 
-  try {
-    const entretiens = await entretienRepository.getEntretiensByMotoId(motoId);
-    if (entretiens.length === 0) {
-      return res.status(404).json({ message: "Aucun entretien trouvé pour cette moto" });
-    }
-    res.status(200).json(entretiens);
-  } catch (error) {
-    console.error("Erreur lors de la récupération des entretiens de la moto :", error);
-    res.status(500).json({ message: "Erreur serveur lors de la récupération des entretiens de la moto" });
-  }
-});
+router.get('/motos/:motoId/entretiens', (req, res) => entretienController.getEntretiensByMoto(req, res));
 
-    // Ajouter un nouvel entretien
-    entretienRoutes.post('/', async (req, res) => {
-    const { motoId, description, coutTotal, piecesChangees, date, recommandations } = req.body;
-  
-    try {
-      const moto = await motoRepository.findById(motoId);
-  
-      if (!moto) {
-        return res.status(404).json({ message: "Moto non trouvée" });
-      }
-  
-      // Créer une nouvelle instance d'Entretien
-      const newEntretien = entretienRepository.create({
-        moto,
-        description,
-        coutTotal,
-        piecesChangees,
-        date: new Date(date),
-        recommandations: recommandations || null,
-      });
-  
-      await entretienRepository.save(newEntretien);
-      res.status(201).json({ message: "Entretien ajouté avec succès", entretien: newEntretien });
-    } catch (error) {
-      console.error("Erreur lors de l'ajout de l'entretien :", error);
-      res.status(500).json({ message: "Erreur serveur lors de l'ajout de l'entretien" });
-    }
-  });
-  
 
-export default entretienRoutes;
+
+export default router;

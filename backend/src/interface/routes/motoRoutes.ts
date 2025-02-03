@@ -16,6 +16,7 @@ export const createMotoRoutes = (
     const planifierController = new PlanifierEntretienController();
     planifierController.planifier(req, res);
   });
+  
 
   return router;
 };

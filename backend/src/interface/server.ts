@@ -25,6 +25,8 @@ AppDataSource.initialize()
 const app = express();
 app.use(cors()); // Activer CORS pour les requêtes HTTP
 app.use(express.json()); // Middleware pour parser le JSON des requêtes
+app.use(entretienRoutes);
+
 
 const motoRepository = new TypeORMMotoRepository();
 const entretienRepository = new TypeORMEntretienRepository();

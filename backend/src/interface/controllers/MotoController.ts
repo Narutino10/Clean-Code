@@ -51,6 +51,8 @@ export class MotoController {
         }
     }
 
+    
+
     public async getEntretiensByMotoId(req: Request, res: Response): Promise<void> {
         try {
             const motoId = req.params.motoId;
